@@ -1,0 +1,356 @@
+import { Image, useAuthenticator } from '@aws-amplify/ui-react';
+import {
+  DeleteTwoTone,
+  PlaylistAddTwoTone
+} from "@mui/icons-material";
+import {
+  Alert,
+  AlertTitle,
+  Box,
+  ButtonBase,
+  Card,
+  CardHeader,
+  Grid,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
+  Stack,
+  Table, TableBody, TableCell,
+  TableHead, TableRow,
+  TextField,
+  useTheme
+} from "@mui/material";
+import { grey } from '@mui/material/colors';
+import { Storage } from "aws-amplify";
+import { useSnackbar } from "notistack";
+import React, { useEffect, useMemo, useState } from "react";
+import { useSelector } from 'react-redux';
+import AuthUtils from "../../utils/authUtils";
+
+
+export default function ProductosCard({ producto, linea, categoria, marca, inventario, inventarios, childrenMenuItem }) {
+
+  const theme = useTheme();
+
+  const { enqueueSnackbar } = useSnackbar();
+  const { user } = useAuthenticator((context) => [context.user]);
+
+
+  const userStore = useSelector((state) => state.usuario);
+  const { user: userCognito } = useAuthenticator((context) => [context.user]);
+  const utilsAuth = useMemo(() => new AuthUtils(enqueueSnackbar, userStore, userCognito), [enqueueSnackbar, userStore, userCognito]);
+
+  const [expanded, setExpanded] = React.useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [imagen, setImagen] = useState();
+
+
+  useEffect(() => {
+    if (producto && producto.imagen) {
+      let imagen = Storage.get(producto?.imagen);
+      imagen.then((e) =>
+        setImagen(e))
+
+
+
+
+    }
+  }, [producto]);
+
+
+
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+
+  return (
+    <Grid container spacing={1}  >
+      <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
+        <Box sx={{ border: 1, borderColor: grey[400], marginBottom: 1 }}>
+          <CardHeader
+            subheader={"Datos Producto"}
+            subheaderTypographyProps={{
+              color: 'primary',
+              variant: 'button'
+            }}
+            sx={{
+              height: 25,
+              background: grey[400],
+              borderBottom: 1,
+              borderColor: grey[400],
+              marginBottom: 1
+            }}
+          />
+          <Grid container spacing={2} padding={1} >
+            <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
+              <ButtonBase>
+                <Image
+                  level="public"
+
+                  style={{
+                    "--width": "100%",
+                  }}
+
+                  src={imagen}
+                />
+
+
+
+              </ButtonBase>
+            </Grid>
+            <Grid item xs={12} sm={8} md={8} lg={8} xl={8} >
+
+              <Grid container spacing={2}
+                direction="row"
+                justifyContent="space-evenly"
+                alignItems="stretch"
+
+              >
+                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+
+
+                  <TextField
+
+                    fullWidth
+                    focused
+                    variant="outlined"
+                    value={producto?.Linea?.nombreLinea}
+                    label={'LINEA'}
+                    size="small"
+                    sx={{ fontSize: '8px' }}
+                  />
+
+                </Grid>
+                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+
+
+                  <TextField
+
+                    fullWidth
+                    focused
+                    variant="outlined"
+                    value={producto?.Marca?.nombreMarca}
+                    label={'MARCA'}
+                    size="small"
+                    sx={{ fontSize: '8px' }}
+                  />
+
+
+                </Grid>
+                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+
+
+                  <TextField
+
+                    fullWidth
+                    focused
+                    variant="outlined"
+                    value={producto?.Categoria?.nombreCategoria}
+                    label={'CATEGORIA'}
+                    size="small"
+                    sx={{ fontSize: '8px' }}
+                  />
+
+
+                </Grid>
+                <Grid item xs={12} sm={3} md={3} lg={3} xl={3}>
+
+
+                  <TextField
+                    focused
+                    fullWidth
+
+                    variant="outlined"
+                    value={producto?.iva}
+                    label={'IVA'.toLocaleUpperCase()}
+                    size="small"
+                    sx={{ fontSize: '8px' }}
+                  />
+
+                </Grid>
+                <Grid item xs={12} sm={9} md={9} lg={9} xl={9}>
+
+
+                  <TextField
+                    focused
+                    fullWidth
+
+                    variant="outlined"
+                    value={producto?.barras ? producto?.barras : 'SIN BARRAS'}
+                    label={'BARRAS'}
+                    size="small"
+                    sx={{ fontSize: '8px' }}
+                  />
+
+
+                </Grid>
+                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+
+
+                  <TextField
+                    focused
+                    fullWidth
+
+                    variant="outlined"
+                    value={producto?.presentacion}
+                    label={'PRESENTACION'.toLocaleUpperCase()}
+                    size="small"
+                    sx={{ fontSize: '8px' }}
+                  />
+
+
+                </Grid>
+              </Grid>
+            </Grid>
+
+
+            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+              <TextField
+                id="filled-multiline-static"
+                multiline
+                label={"Detalle"}
+                rows={3}
+                value={producto?.descripcion ? producto.descripcion : ''}
+                variant="outlined"
+                focused
+                fullWidth
+
+              />
+
+
+            </Grid>
+          </Grid>
+
+        </Box>
+      </Grid>
+      <Grid item xs={12} sm={12} md={12} lg={6} xl={6}>
+
+        <Grid container spacing={1}  >
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+  
+
+
+
+          </Grid>
+          <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+            <Box sx={{ border: 1, borderColor: grey[400], minHeight: 75 }}>
+              <CardHeader
+                subheader={"Especificaciones"}
+                subheaderTypographyProps={{
+                  color: 'primary',
+                  variant: 'button'
+                }}
+                sx={{
+                  height: 25,
+                  background: grey[400],
+                  borderBottom: 1,
+                  borderColor: grey[400],
+
+                }}
+              />
+              {producto?.datos_producto && Object.keys(producto?.datos_producto) > 0 ?
+                <Stack spacing={1} padding={1}>
+
+                  {producto?.datos_producto && Object.keys(producto?.datos_producto).map(e =>
+                    <TextField
+                      key={e}
+                      fullWidth
+                      disabled
+                      variant="standard"
+                      value={producto?.datos_producto[e]}
+                      label={e.toLocaleUpperCase()}
+                      size="small"
+                      sx={{ fontSize: '8px' }}
+                    />
+
+                  )}
+                </Stack>
+                : <Alert
+                  severity="info"
+
+                >
+                  <AlertTitle>Producto sin Especificaciones</AlertTitle>
+                  Este producto no presenta Especificaciones para poder Ingresarlas recuerda que vienen de la Categoria.
+                </Alert>}
+
+
+            </Box>
+
+          </Grid>
+          <Grid item xs={12} sm={6} md={6} lg={6} xl={6}>
+
+            {utilsAuth.isAdmin(userCognito) &&
+              <Box sx={{ border: 1, borderColor: grey[400] }}>
+                <CardHeader
+                  subheader={"Proveedores"}
+                  subheaderTypographyProps={{
+                    color: 'primary',
+                    variant: 'button'
+                  }}
+                  sx={{
+                    height: 25,
+                    background: grey[400],
+                    borderBottom: 1,
+                    borderColor: grey[400],
+
+                  }}
+                />
+                {producto?.Proveedores && producto?.Proveedores > 0 ?
+                  <Stack spacing={1} padding={1}>
+
+                    <List dense sx={{ width: '100%', bgcolor: 'background.paper' }} >
+
+                      {producto?.Proveedores && producto?.Proveedores.map(e =>
+                        <ListItem
+                          divider
+                          key={e}
+                          disableGutters
+                          secondaryAction={
+                            <IconButton aria-label="comment" size="small" color="error">
+                              <DeleteTwoTone fontSize="small" color="error" />
+                            </IconButton>
+                          }
+                        >
+                          <ListItemText
+                            primary={e?.Tercero?.nombre_completo}
+                            primaryTypographyProps={{ variant: 'caption', fontSize: 10 }}
+                            secondary={e.codigo}
+                            secondaryTypographyProps={{ variant: 'caption', fontSize: 10 }}
+                          />
+
+                        </ListItem>
+
+
+                      )}
+                    </List>
+                  </Stack>
+                  : <Alert
+                    severity="info"
+
+                  >
+                    <AlertTitle>Producto sin Proveedores</AlertTitle>
+                    Este producto no presenta Proveedores para poder Ingresarlos recuerda que vienen de las compras XML.
+                  </Alert>}
+
+
+              </Box>
+            }
+          </Grid>
+        </Grid>
+
+
+      </Grid>
+    </Grid>
+  );
+
+}
+
+/**
+ *      
+ */

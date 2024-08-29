@@ -1,0 +1,21 @@
+[data-amplify-authenticator] {
+  --amplify-components-authenticator-modal-background-color: var(
+    --amplify-colors-neutral-90
+  );
+  --amplify-primary-color: #8a9597;
+  --amplify-primary-tint: #b0b8b9;
+  --amplify-primary-shade: #6d787a;
+}
+
+:root {
+
+}
+
+amplify-authenticator {
+  --box-shadow: 0px 0px 16px 4px rgba(68, 134, 163, 1);
+  --border-radius: 2em;
+}
+
+amplify-sign-in {
+  --footer-color: red;
+}

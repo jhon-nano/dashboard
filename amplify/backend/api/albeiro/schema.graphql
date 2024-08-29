@@ -1,0 +1,264 @@
+## DASHBOARD
+
+type ModuloUserAlmacenes @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  estado: Estado!
+  ModuloNew: ModuloNew
+  Almacen: Almacen @hasOne
+  Usuario: Usuario @hasOne
+
+}
+
+type ModuloUserPermiso @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  estado: Estado!
+  ModuloNew: ModuloNew
+  Usuario: Usuario! @hasOne
+  code: String
+}
+
+type Consecutivo @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  consecutivo: Int!
+  ModuloNew: ModuloNew
+
+  Almacen: Almacen @hasOne
+  codigo: String
+}
+
+type Almacen @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  codigo: String
+  nit: String
+  nombreAlmacen: String!
+  direccion: String
+  ciudad: String
+  telefono: String
+  secciones: [String]
+  estantes: [String]
+  niveles: [String]
+  cajas: [String]
+  cajas_registradoras: [CajaRegistradora]
+  estado: Estado
+}
+
+type Usuario @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  username: String
+  nombreUsuario: String!
+  sub: String!
+  estado: Estado
+  modulos_new: [ModuloNew]
+
+}
+
+ ## PRODUCTOS 
+
+type Producto @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  codigo: String
+  nombreProducto: String!
+  nombreCorto: String
+  iva: Int!
+  venta: Boolean
+  insumos: Boolean
+  preparacion: Boolean
+  barras: String
+  presentacion: String
+  descripcion: String
+  cambio_precio: Boolean
+  datos_producto: AWSJSON
+  Proveedores: [ProductoProveedor]
+  imagen: String
+  Linea: Linea @hasOne
+  Categoria: Categoria @hasOne
+  Marca: Marca @hasOne
+  estado: Estado
+}
+
+type Marca @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  nombreMarca: String
+  estado: Estado
+}
+
+type Categoria @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  nombreCategoria: String!
+  estado: Estado!
+  Atributos: [CategoriaAtributoNew]
+
+}
+
+type Linea @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  nombreLinea: String!
+  estado: Estado!
+}
+
+ ## PRODUCTOS END 
+
+
+########################################################
+
+type DatosSolicitud {
+  ocupacion: String
+  nombre_empresa: String
+  direccion_empresa: String
+  telefono_empresa: String
+  antiguedad: String
+  ingresos: String
+  personas_cargo: String
+  estado_civil: String
+  vivienda: String
+  ref1_familiar_nombre: String
+  ref1_familiar_parentesco: String
+  ref1_familiar_telefono: String
+  ref2_familiar_nombre: String
+  ref2_familiar_parentesco: String
+  ref2_familiar_telefono: String
+  ref1_comercial_nombre: String
+  ref1_comercial_observacion: String
+  ref2_comercial_nombre: String
+  ref2_comercial_observacion: String
+}
+
+enum TipoTerceros {
+  CC
+  NIT
+  TI
+  PASAPORTE
+  CE
+}
+
+enum TipoPago {
+  CONTADO
+  CREDITO
+}
+
+enum TipoCompras {
+  COMPRA
+  DEVOLUCION
+  NOTA_PROVEEDOR
+}
+
+enum TipoReciboCaja {
+  ANTICIPO
+  RECAUDO
+}
+
+enum TipoComprobanteEgreso {
+  ANTICIPO
+  PAGO
+  NOTA_CREDITO
+}
+
+enum TipoCarteraClientes {
+  ANTICIPO
+  CXC
+  NOTA_DEBITO
+}
+
+enum TipoCarteraProveedores {
+  ANTICIPO
+  CXP
+}
+
+enum TipoPedidos {
+  PEDIDO
+  SEPARADO
+}
+
+enum TipoFacturas {
+  FACTURA
+  FACTURA_POS
+  FACTURA_ELECTRONICA
+}
+
+enum TipoMovimientos {
+  TRASLADO
+  INVENTARIO_FISICO
+  AJUSTES_INVENTARIO
+}
+
+enum EstadoFactura {
+  FACTURADO
+  PENDIENTE
+  ANULADO
+}
+
+enum EstadoCredito {
+  PENDIENTE
+  REVISADO
+  AUTORIZADO
+  RECHAZADO
+  ANULADO
+}
+
+enum Estado {
+  ACTIVO
+  INACTIVO
+}
+
+#########################################################
+
+type ProductoProveedor {
+  nit_proveedor: String!
+  codigo: String!
+}
+
+type Auditoria {
+  fecha: AWSDateTime!
+  UsuarioID: String!
+}
+
+type ModuloNew {
+  icon: String!
+  path: String!
+  nombreModulo: String!
+  detalle: String
+  maneja_almacenes: Boolean!
+}
+
+type CategoriaAtributoNew {
+  nombre: String!
+  tipo: String!
+  facturacion: Boolean!
+  filtrar: Boolean
+}
+
+type AuditoriaInventario {
+  fecha: AWSDateTime!
+  saldo: Float!
+  UsuarioID: String!
+}
+
+type CotizacionItem {
+  id: ID!
+  consecutivo: Int!
+  codigo_item: String!
+  nombre_item: String!
+  cantidad: Float!
+  costo_item: Float!
+  subtotal_item: Float!
+  iva_item: Float!
+  total_item: Float!
+  estado: Estado
+}
+
+type UbicacionInventario {
+  seccion: String
+  estante: String
+  nivel: String
+  caja: String
+  detalle: String
+}
+
+type CajaRegistradora {
+  numero_caja: Int!
+  prefijo: String!
+  resolucion: String
+  en_uso: Boolean!
+  usuario_en_uso: String
+  estado: Estado!
+}
