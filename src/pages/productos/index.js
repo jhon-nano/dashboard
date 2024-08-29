@@ -31,7 +31,6 @@ import {
   Tabs,
   TextField,
   Tooltip,
-  Typography,
   useMediaQuery,
   useTheme
 } from "@mui/material";
@@ -52,14 +51,12 @@ import { useModelProductos } from "../../hooks/models/useModelProducto";
 import { useModel } from "../../hooks/useModel";
 import LayoutApp from "../../layout/LayoutApp";
 import { Categoria, Estado, Linea, Marca } from "../../models";
+import ProductoService from "../../services/productoService";
 import { openFiltroData } from "../../store/actions/app";
 import { filteringAtributosProductos, filteringCategoriasProductos, filteringLineasProductos, filteringMarcasProductos, filteringProductos, filterTableProductos, filtrarProductos, groupingProductos } from "../../store/actions/productos";
 import { getVisibleDatosProductos } from "../../store/selectors/productos";
 import TypesProductos from "../../types/typesProductos";
 import FormatUtils from "../../utils/formatUtils";
-import ProductoService from "../../services/productoService";
-import InventarioService from "../../services/inventarioService";
-import { EditComponentConsecutivo } from "../../components/productos/table/ColumnsComponent";
 
 
 
@@ -190,25 +187,25 @@ export default function Productos({ value, userStore, utilsAuth, appStore }) {
     const propiedades = {};
 
     data.forEach(producto => {
-        const datosProducto = producto.datos_producto;
+      const datosProducto = producto.datos_producto;
 
-        for (const prop in datosProducto) {
-            if (datosProducto.hasOwnProperty(prop)) {
-                if (!propiedades[prop]) {
-                    propiedades[prop] = [];
-                }
+      for (const prop in datosProducto) {
+        if (datosProducto.hasOwnProperty(prop)) {
+          if (!propiedades[prop]) {
+            propiedades[prop] = [];
+          }
 
-                if (!propiedades[prop].includes(datosProducto[prop])) {
-                    propiedades[prop].push(datosProducto[prop]);
-                }
-            }
+          if (!propiedades[prop].includes(datosProducto[prop])) {
+            propiedades[prop].push(datosProducto[prop]);
+          }
         }
+      }
     });
 
     return propiedades;
-};
+  };
 
-useEffect(() => {
+  useEffect(() => {
 
 
     const propiedades = calcularPropiedadesUnicas(productoStore.productos);
@@ -219,7 +216,7 @@ useEffect(() => {
     setDataFiltros(propiedades);
 
 
-}, [productoStore]);
+  }, [productoStore]);
 
 
 
@@ -505,25 +502,7 @@ useEffect(() => {
                   fontSize: 12
                 }),
               },
-              {
-                title: "INVENTARIO",
-                field: "inventario",
-                render: (rowData) => EditComponentConsecutivo(rowData),
-                filtering: false,
-                align: "center",
-                editable: 'never',
-                headerStyle: {
-                  width: "5%",
-                  maxWidth: "5%",
-                  align: "center",
-                  fontSize: 12
-                },
-                cellStyle: (rowData) => ({
-                  width: "5%",
-                  maxWidth: "5%",
-                  fontSize: 12
-                }),
-              },
+
               {
                 title: "ESTADO",
                 field: "estado",

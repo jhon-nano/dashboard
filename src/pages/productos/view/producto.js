@@ -6,7 +6,7 @@ import {
 import { Storage } from 'aws-amplify';
 import moment from "moment";
 import { useRouter } from "next/router";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import MaterialTable from "@material-table/core";
 import { Content, Footer, Fullscreen, getContentBasedScheme, Root } from "@mui-treasury/layout";
@@ -17,11 +17,9 @@ import Modal from "../../../components/otros/Modal";
 import ProductosCard from "../../../components/productos/ProductoCard";
 import { ProductosImageList } from "../../../components/productos/ProductosImageList";
 import ProductoViewEmcabezado from "../../../components/productos/view/ProductoViewEmcabezado";
-import InventariosHelpers from "../../../helpers/inventariosHelpers";
-import { useModelInventarioByProductoId } from "../../../hooks/models/useModelInventario";
+import ProductoViewFooter from "../../../components/productos/view/ProductoViewFooter";
 import { useModelProductoById } from "../../../hooks/models/useModelProducto";
 import LayoutCaja from "../../../layout/LayoutCaja";
-import ProductoViewFooter from "../../../components/productos/view/ProductoViewFooter";
 
 
 moment.locale("es");
@@ -36,14 +34,12 @@ export default function ProductoID(props) {
 
 
   const { value, setValue, appStore, userStore } = props
-  
+
   const router = useRouter();
   const dispatch = useDispatch();
   const confirm = useConfirm();
   const { enqueueSnackbar } = useSnackbar();
 
-
-  const helperInventario = useMemo(() => new InventariosHelpers(enqueueSnackbar, dispatch, confirm), [enqueueSnackbar, dispatch, confirm]);
 
 
 
@@ -56,11 +52,7 @@ export default function ProductoID(props) {
     error: errorProducto,
   } = useModelProductoById(router.query.id);
 
-  const {
-    loading,
-    inventarioProducto: inventarios,
-    error
-  } = useModelInventarioByProductoId(router.query.id)
+
 
   const { material_table } = appStore
   const { almacenesAutorizados } = userStore
@@ -68,7 +60,7 @@ export default function ProductoID(props) {
   const [documentos, setDocumentos] = useState([]);
   const [open_inventarios, setOpenInventarios] = useState(false);
 
-
+  const [inventarios, setInventa] = useState([]);
 
 
 
@@ -155,7 +147,7 @@ export default function ProductoID(props) {
             linea={linea}
             categoria={categoria}
             marca={marca}
-            inventarios={inventarios}
+            inventarios={[]}
           />
         );
       case 1:
@@ -248,7 +240,6 @@ export default function ProductoID(props) {
               localization={material_table.localization}
               style={material_table.style}
               editable={{
-                onRowAdd: (newData) => helperInventario.onRowAddTableInventario(newData, producto.id),
 
 
               }}

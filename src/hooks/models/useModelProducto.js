@@ -2,15 +2,12 @@
 import { DataStore, Predicates, SortDirection } from "aws-amplify";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AjusteInventarioItem, Categoria, Producto, CompraItem, PedidoItem } from "../../models";
-import TerceroService from '../../services/terceroService';
-import { loadingProductos, queryProductos } from "../../store/actions/productos";
-import InventarioService from "../../services/inventarioService";
+import { AjusteInventarioItem, Categoria, CompraItem, PedidoItem, Producto } from "../../models";
+import { queryProductos } from "../../store/actions/productos";
 
 export function useModelProductoById(id) {
 
 
-  const serviceTercero = new TerceroService();
 
   const [loading, setLoading] = useState(true);  // Estado para controlar si la carga está en progreso
   const [producto, setProducto] = useState(null);  // Estado para almacenar los datos del modelo
@@ -104,7 +101,6 @@ export function useModelProductos() {
 
   const dispatch = useDispatch();
   const productoStore = useSelector((state) => state.productos);
-  const serviceInventario = new InventarioService();
 
   const { productos } = productoStore;
 

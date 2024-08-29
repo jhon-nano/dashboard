@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 // layout for this page
 import { Content, Footer, Fullscreen, getContentBasedScheme, Root } from "@mui-treasury/layout";
-import { BarChartTwoTone, ImportExportTwoTone, MoneyOffTwoTone, TrendingDownTwoTone, TrendingUpTwoTone } from "@mui/icons-material";
-import { CardHeader, Divider, Grid, Stack, useTheme } from "@mui/material";
+import { Stack } from "@mui/material";
 import {
   BarElement,
   CategoryScale,
@@ -15,13 +14,9 @@ import {
   Tooltip,
 } from "chart.js";
 import moment from "moment";
-import { Bar, Line } from "react-chartjs-2";
 import { useSelector } from "react-redux";
-import DashboardCard from "../../components/informes/DashboardCard";
 import FormFooterInformes from "../../components/informes/FormFooter";
-import { useInformeAlmacenes, useInformeDia, useModelCompras, useModelInventarios, useModelPedidos } from "../../hooks/models/useModelInformes";
 import LayoutCaja from "../../layout/LayoutCaja";
-import DashboardListProductos from "../../components/informes/DashboardListProductos";
 
 
 
@@ -39,10 +34,10 @@ ChartJS.register(
 );
 
 
-function Index() {
+export default function IndexInformes() {
 
 
- 
+
 
   const informes = useSelector((state) => state.informes);
 
@@ -83,7 +78,7 @@ function Index() {
 
 
 
-              CONTENIDO
+            CONTENIDO
 
           </Content>
         </Stack>
@@ -105,10 +100,9 @@ function Index() {
   </>)
 }
 
-Index.getLayout = function getLayout(page) {
+IndexInformes.getLayout = function getLayout(page) {
 
   return <LayoutCaja {...page.props}  >{page}</LayoutCaja>;
 };
 
 
-export default Index;
