@@ -18,8 +18,6 @@ export { default as ModuloUserAlmacenesCreateForm } from "./ModuloUserAlmacenesC
 export { default as ModuloUserAlmacenesUpdateForm } from "./ModuloUserAlmacenesUpdateForm";
 export { default as ProductoCreateForm } from "./ProductoCreateForm";
 export { default as ProductoUpdateForm } from "./ProductoUpdateForm";
-export { default as TerceroCreateForm } from "./TerceroCreateForm";
-export { default as TerceroUpdateForm } from "./TerceroUpdateForm";
 export { default as UsuarioCreateForm } from "./UsuarioCreateForm";
 export { default as UsuarioUpdateForm } from "./UsuarioUpdateForm";
 export { default as studioTheme } from "./studioTheme";

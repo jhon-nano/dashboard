@@ -79,7 +79,7 @@ const Estado = {
   "INACTIVO": "INACTIVO"
 };
 
-const { ModuloUserAlmacenes, ModuloUserPermiso, Consecutivo, Almacen, Usuario, Producto, Marca, Categoria, Linea, Tercero, DatosSolicitud, ProductoProveedor, Auditoria, ModuloNew, CategoriaAtributoNew, AuditoriaInventario, CotizacionItem, UbicacionInventario, CajaRegistradora } = initSchema(schema);
+const { ModuloUserAlmacenes, ModuloUserPermiso, Consecutivo, Almacen, Usuario, Producto, Marca, Categoria, Linea, DatosSolicitud, ProductoProveedor, Auditoria, ModuloNew, CategoriaAtributoNew, AuditoriaInventario, CotizacionItem, UbicacionInventario, CajaRegistradora } = initSchema(schema);
 
 export {
   ModuloUserAlmacenes,
@@ -91,7 +91,6 @@ export {
   Marca,
   Categoria,
   Linea,
-  Tercero,
   TipoTerceros,
   TipoPago,
   TipoCompras,
