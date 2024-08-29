@@ -1,12 +1,9 @@
 import { DataStore } from "aws-amplify";
-import { Almacen, Categoria, Estado, LazyAlmacen, LazyCategoria } from "../models";
+import { Almacen, Estado, LazyAlmacen } from "../models";
 import { BaseService } from "./baseService";
 
-import { useSnackbar } from "notistack";
 import CustomNotification from "../models/CustomNotification";
 import { IAlmacenService } from "./interface/IAlmacenService";
-import ProductoService from "./productoService";
-import { element } from "prop-types";
 
 
 export default class AlmacenService extends BaseService<Almacen>  implements IAlmacenService {

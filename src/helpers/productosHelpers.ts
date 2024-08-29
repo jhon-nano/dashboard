@@ -1,7 +1,7 @@
 
-import { Estado, LazyProducto, Producto, ProductoProveedor } from "../models";
+import { Estado, Producto, ProductoProveedor } from "../models";
 import CustomNotification from "../models/CustomNotification";
-import InventarioService from "../services/inventarioService";
+
 import ProductoService from "../services/productoService";
 import TypesProductos from "../types/typesProductos";
 import FormatUtils from "../utils/formatUtils";
@@ -17,7 +17,7 @@ export default class ProductosHelpers {
   private router: any;
   private dispatch : any;
   private serviceProducto: ProductoService;
-  private serviceInventario: InventarioService;
+
   private utilsFormat : FormatUtils;
   private utilsProducto : ProductosUtils;
   private store: any;
@@ -31,7 +31,7 @@ export default class ProductosHelpers {
     this.store = store;
     this.moduloProductos = new TypesProductos(router)
     this.serviceProducto = new ProductoService();
-    this.serviceInventario = new InventarioService();
+
     this.utilsFormat = new FormatUtils();
     this.utilsProducto = new ProductosUtils();
   }
@@ -265,15 +265,7 @@ export default class ProductosHelpers {
       },
     })
     .then(async () => {
-
-
-      const inventario = await this.serviceInventario.getInventarioByProducto(id);
-
-      inventario?.map((element) => {
-        if(element.inventario > 0){
-          throw new CustomNotification("Productos con Saldo.", 404);
-        }
-      })
+  
 
 
       const producto = this.serviceProducto.delete(id)

@@ -1,5 +1,4 @@
-import { LazyProducto, LazyProductoProveedor } from "../models";
-import CustomNotification from "../models/CustomNotification";
+import { LazyProducto } from "../models";
 
 export default class ProductosUtils {
     constructor() {
