@@ -99,6 +99,7 @@ export function FormCreateProducto() {
           <Controller
             name="iva"
             control={control}
+            defaultValue={0}
             render={({ field }) => (
               <TextField
                 {...field}

@@ -100,63 +100,9 @@ export default function ProductoViewEmcabezado({ producto, value, setValue, onCh
         />
 
         <Box flexGrow={1} />
-        <Tabs
-          value={value}
-          onChange={(event, newValue) => {
-            setValue(newValue); {/* Pasa la función para actualizar el valor desde la prop de la página */ }
-          }}
-          centered
-          textColor="inherit"
-          indicatorColor='secondary'
-          aria-label="icon position tabs example"
-          sx={{ color: 'white', mt: 1 }}
-        >
+   
+  
 
-          <Tab
-            icon={<TvTwoTone fontSize='large' />}
-            iconPosition="start"
-            label="PRODUCTO"
-
-          />
-          <Tab
-            icon={<WallpaperTwoTone fontSize='large' />}
-            iconPosition="start"
-            label="GALERIA"
-
-          />
-
-        </Tabs>
-        <Box flexGrow={1} />
-        {value == 1 && <Tooltip title='Subir Imagenes'>
-          <Box sx={{ mt: 1 }}>
-            <input
-              accept="image/*"
-              className={classes.input}
-              id="contained-button-file"
-              multiple
-              type="file"
-              onChange={(e) => onChangeUpload(e.target.files)}
-            //disabled={!validarPermiso(user, permisosAutorizados, permiso)}
-            />
-            <label htmlFor="contained-button-file">
-              <IconButton
-                sx={{
-                  border: 2,
-                  background: "white",
-                  mr: 1,
-
-                  height: 50,
-                  width: 50
-                }}
-
-                color="primary"
-                component="span"
-              >
-                <AddAPhotoTwoTone sx={{ fontSize: 24 }} color="primary" />
-              </IconButton>
-            </label>
-          </Box>
-        </Tooltip>}
         <Tooltip title='Mas Opciones'>
           <IconButton
 
@@ -222,7 +168,7 @@ export default function ProductoViewEmcabezado({ producto, value, setValue, onCh
 
           <MenuItem
             onClick={() => utilsAuth.isPermisoAuthorized(TypesProductos.getAllPermisos().DELETE_PRODUCTO, true) &&
-              helpersProducto.handleInactivarProducto(producto?.id) && setAnchorEl(null)}
+              helpersProductos.handleInactivarProducto(producto?.id) && setAnchorEl(null)}
           >
             <ListItemIcon>
               {producto?.estado == Estado.ACTIVO ? (

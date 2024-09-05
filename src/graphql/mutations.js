@@ -19,9 +19,11 @@ export const createModuloUserAlmacenes = /* GraphQL */ `
       }
       Almacen {
         id
-        codigo
-        nit
-        nombreAlmacen
+        organizationType
+        identificationNumber
+        dv
+        name
+        tradeName
         direccion
         ciudad
         telefono
@@ -29,6 +31,7 @@ export const createModuloUserAlmacenes = /* GraphQL */ `
         estantes
         niveles
         cajas
+        regimeCode
         estado
         createdAt
         updatedAt
@@ -79,9 +82,11 @@ export const updateModuloUserAlmacenes = /* GraphQL */ `
       }
       Almacen {
         id
-        codigo
-        nit
-        nombreAlmacen
+        organizationType
+        identificationNumber
+        dv
+        name
+        tradeName
         direccion
         ciudad
         telefono
@@ -89,6 +94,7 @@ export const updateModuloUserAlmacenes = /* GraphQL */ `
         estantes
         niveles
         cajas
+        regimeCode
         estado
         createdAt
         updatedAt
@@ -139,9 +145,11 @@ export const deleteModuloUserAlmacenes = /* GraphQL */ `
       }
       Almacen {
         id
-        codigo
-        nit
-        nombreAlmacen
+        organizationType
+        identificationNumber
+        dv
+        name
+        tradeName
         direccion
         ciudad
         telefono
@@ -149,6 +157,7 @@ export const deleteModuloUserAlmacenes = /* GraphQL */ `
         estantes
         niveles
         cajas
+        regimeCode
         estado
         createdAt
         updatedAt
@@ -319,9 +328,11 @@ export const createConsecutivo = /* GraphQL */ `
       }
       Almacen {
         id
-        codigo
-        nit
-        nombreAlmacen
+        organizationType
+        identificationNumber
+        dv
+        name
+        tradeName
         direccion
         ciudad
         telefono
@@ -329,6 +340,7 @@ export const createConsecutivo = /* GraphQL */ `
         estantes
         niveles
         cajas
+        regimeCode
         estado
         createdAt
         updatedAt
@@ -366,9 +378,11 @@ export const updateConsecutivo = /* GraphQL */ `
       }
       Almacen {
         id
-        codigo
-        nit
-        nombreAlmacen
+        organizationType
+        identificationNumber
+        dv
+        name
+        tradeName
         direccion
         ciudad
         telefono
@@ -376,6 +390,7 @@ export const updateConsecutivo = /* GraphQL */ `
         estantes
         niveles
         cajas
+        regimeCode
         estado
         createdAt
         updatedAt
@@ -413,9 +428,11 @@ export const deleteConsecutivo = /* GraphQL */ `
       }
       Almacen {
         id
-        codigo
-        nit
-        nombreAlmacen
+        organizationType
+        identificationNumber
+        dv
+        name
+        tradeName
         direccion
         ciudad
         telefono
@@ -423,6 +440,7 @@ export const deleteConsecutivo = /* GraphQL */ `
         estantes
         niveles
         cajas
+        regimeCode
         estado
         createdAt
         updatedAt
@@ -449,12 +467,27 @@ export const createAlmacen = /* GraphQL */ `
   ) {
     createAlmacen(input: $input, condition: $condition) {
       id
-      codigo
-      nit
-      nombreAlmacen
+      organizationType
+      identificationNumber
+      dv
+      name
+      tradeName
       direccion
       ciudad
       telefono
+      address {
+        address
+        city
+        department
+        country
+        __typename
+      }
+      contact {
+        name
+        email
+        phone
+        __typename
+      }
       secciones
       estantes
       niveles
@@ -466,6 +499,12 @@ export const createAlmacen = /* GraphQL */ `
         en_uso
         usuario_en_uso
         estado
+        __typename
+      }
+      regimeCode
+      taxCode {
+        email
+        phone
         __typename
       }
       estado
@@ -485,12 +524,27 @@ export const updateAlmacen = /* GraphQL */ `
   ) {
     updateAlmacen(input: $input, condition: $condition) {
       id
-      codigo
-      nit
-      nombreAlmacen
+      organizationType
+      identificationNumber
+      dv
+      name
+      tradeName
       direccion
       ciudad
       telefono
+      address {
+        address
+        city
+        department
+        country
+        __typename
+      }
+      contact {
+        name
+        email
+        phone
+        __typename
+      }
       secciones
       estantes
       niveles
@@ -502,6 +556,12 @@ export const updateAlmacen = /* GraphQL */ `
         en_uso
         usuario_en_uso
         estado
+        __typename
+      }
+      regimeCode
+      taxCode {
+        email
+        phone
         __typename
       }
       estado
@@ -521,12 +581,27 @@ export const deleteAlmacen = /* GraphQL */ `
   ) {
     deleteAlmacen(input: $input, condition: $condition) {
       id
-      codigo
-      nit
-      nombreAlmacen
+      organizationType
+      identificationNumber
+      dv
+      name
+      tradeName
       direccion
       ciudad
       telefono
+      address {
+        address
+        city
+        department
+        country
+        __typename
+      }
+      contact {
+        name
+        email
+        phone
+        __typename
+      }
       secciones
       estantes
       niveles
@@ -538,6 +613,12 @@ export const deleteAlmacen = /* GraphQL */ `
         en_uso
         usuario_en_uso
         estado
+        __typename
+      }
+      regimeCode
+      taxCode {
+        email
+        phone
         __typename
       }
       estado
@@ -1026,6 +1107,435 @@ export const deleteLinea = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      __typename
+    }
+  }
+`;
+export const createInventario = /* GraphQL */ `
+  mutation CreateInventario(
+    $input: CreateInventarioInput!
+    $condition: ModelInventarioConditionInput
+  ) {
+    createInventario(input: $input, condition: $condition) {
+      id
+      inventario
+      separado
+      costo_promedio
+      costo
+      precio
+      auditoria {
+        fecha
+        saldo
+        UsuarioID
+        __typename
+      }
+      ubicacion {
+        seccion
+        estante
+        nivel
+        caja
+        detalle
+        __typename
+      }
+      estado
+      Producto {
+        id
+        codigo
+        nombreProducto
+        nombreCorto
+        iva
+        venta
+        insumos
+        preparacion
+        barras
+        presentacion
+        descripcion
+        cambio_precio
+        datos_producto
+        imagen
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        productoLineaId
+        productoCategoriaId
+        productoMarcaId
+        __typename
+      }
+      Almacen {
+        id
+        organizationType
+        identificationNumber
+        dv
+        name
+        tradeName
+        direccion
+        ciudad
+        telefono
+        secciones
+        estantes
+        niveles
+        cajas
+        regimeCode
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      inventarioProductoId
+      inventarioAlmacenId
+      __typename
+    }
+  }
+`;
+export const updateInventario = /* GraphQL */ `
+  mutation UpdateInventario(
+    $input: UpdateInventarioInput!
+    $condition: ModelInventarioConditionInput
+  ) {
+    updateInventario(input: $input, condition: $condition) {
+      id
+      inventario
+      separado
+      costo_promedio
+      costo
+      precio
+      auditoria {
+        fecha
+        saldo
+        UsuarioID
+        __typename
+      }
+      ubicacion {
+        seccion
+        estante
+        nivel
+        caja
+        detalle
+        __typename
+      }
+      estado
+      Producto {
+        id
+        codigo
+        nombreProducto
+        nombreCorto
+        iva
+        venta
+        insumos
+        preparacion
+        barras
+        presentacion
+        descripcion
+        cambio_precio
+        datos_producto
+        imagen
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        productoLineaId
+        productoCategoriaId
+        productoMarcaId
+        __typename
+      }
+      Almacen {
+        id
+        organizationType
+        identificationNumber
+        dv
+        name
+        tradeName
+        direccion
+        ciudad
+        telefono
+        secciones
+        estantes
+        niveles
+        cajas
+        regimeCode
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      inventarioProductoId
+      inventarioAlmacenId
+      __typename
+    }
+  }
+`;
+export const deleteInventario = /* GraphQL */ `
+  mutation DeleteInventario(
+    $input: DeleteInventarioInput!
+    $condition: ModelInventarioConditionInput
+  ) {
+    deleteInventario(input: $input, condition: $condition) {
+      id
+      inventario
+      separado
+      costo_promedio
+      costo
+      precio
+      auditoria {
+        fecha
+        saldo
+        UsuarioID
+        __typename
+      }
+      ubicacion {
+        seccion
+        estante
+        nivel
+        caja
+        detalle
+        __typename
+      }
+      estado
+      Producto {
+        id
+        codigo
+        nombreProducto
+        nombreCorto
+        iva
+        venta
+        insumos
+        preparacion
+        barras
+        presentacion
+        descripcion
+        cambio_precio
+        datos_producto
+        imagen
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        productoLineaId
+        productoCategoriaId
+        productoMarcaId
+        __typename
+      }
+      Almacen {
+        id
+        organizationType
+        identificationNumber
+        dv
+        name
+        tradeName
+        direccion
+        ciudad
+        telefono
+        secciones
+        estantes
+        niveles
+        cajas
+        regimeCode
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      inventarioProductoId
+      inventarioAlmacenId
+      __typename
+    }
+  }
+`;
+export const createTicket = /* GraphQL */ `
+  mutation CreateTicket(
+    $input: CreateTicketInput!
+    $condition: ModelTicketConditionInput
+  ) {
+    createTicket(input: $input, condition: $condition) {
+      id
+      consecutivo
+      Almacen {
+        id
+        organizationType
+        identificationNumber
+        dv
+        name
+        tradeName
+        direccion
+        ciudad
+        telefono
+        secciones
+        estantes
+        niveles
+        cajas
+        regimeCode
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      Usuario {
+        id
+        username
+        nombreUsuario
+        sub
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      estado
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      ticketAlmacenId
+      ticketUsuarioId
+      __typename
+    }
+  }
+`;
+export const updateTicket = /* GraphQL */ `
+  mutation UpdateTicket(
+    $input: UpdateTicketInput!
+    $condition: ModelTicketConditionInput
+  ) {
+    updateTicket(input: $input, condition: $condition) {
+      id
+      consecutivo
+      Almacen {
+        id
+        organizationType
+        identificationNumber
+        dv
+        name
+        tradeName
+        direccion
+        ciudad
+        telefono
+        secciones
+        estantes
+        niveles
+        cajas
+        regimeCode
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      Usuario {
+        id
+        username
+        nombreUsuario
+        sub
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      estado
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      ticketAlmacenId
+      ticketUsuarioId
+      __typename
+    }
+  }
+`;
+export const deleteTicket = /* GraphQL */ `
+  mutation DeleteTicket(
+    $input: DeleteTicketInput!
+    $condition: ModelTicketConditionInput
+  ) {
+    deleteTicket(input: $input, condition: $condition) {
+      id
+      consecutivo
+      Almacen {
+        id
+        organizationType
+        identificationNumber
+        dv
+        name
+        tradeName
+        direccion
+        ciudad
+        telefono
+        secciones
+        estantes
+        niveles
+        cajas
+        regimeCode
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      Usuario {
+        id
+        username
+        nombreUsuario
+        sub
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      estado
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      ticketAlmacenId
+      ticketUsuarioId
       __typename
     }
   }

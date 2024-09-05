@@ -1,21 +1,33 @@
 import {
+  AssignmentIndTwoTone,
+  AssignmentTwoTone,
+  GroupAddTwoTone,
   ManageAccountsTwoTone,
   StoreTwoTone
 } from "@mui/icons-material";
 import {
+  Avatar,
+  Grid,
+  IconButton,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
   Tab,
   Tabs
 } from "@mui/material";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import AlmacenesTable from "../../components/almacenes/AlmacenesTable";
 
-import { API } from "aws-amplify";
+import { API, Auth } from "aws-amplify";
+import { useRouter } from "next/router";
 import UsuariosCognitoTable from "../../components/usuarios/UsuariosCognitoTable";
 import UsuariosTable from "../../components/usuarios/UsuariosTable";
 import { useModel } from "../../hooks/useModel";
 import LayoutApp from "../../layout/LayoutApp";
 import { Almacen, Usuario } from "../../models";
+import TypesUsuarios from "../../types/typesUsuario";
 
 moment.locale("es");
 
@@ -54,7 +66,11 @@ function ConfiguracionAppBar({ value, setValue }) {
 
 
 
-export default function Configuracion({ value }) {
+export default function Configuracion({ value, utilsAuth }) {
+
+
+  const router = useRouter();
+  const moduloUsuario = useMemo(() => new TypesUsuarios(router), [router]);
 
   const {
     loading: loadingAlmacenes,
@@ -70,7 +86,7 @@ export default function Configuracion({ value }) {
 
 
   const [companies, setCompanies] = useState([]);
-
+  const [usersCognito, setUsers] = useState([]);
 
 
   const fetchCompanies = async () => {
@@ -89,37 +105,101 @@ export default function Configuracion({ value }) {
   }, []);
 
 
-  console.log(companies);
+  useEffect(() => {
+    const listUsers = async () => {
+      try {
+
+        const apiName = 'AdminQueries';
+        const path = '/listUsers';
+        const myInit = {
+          queryStringParameters: {
+            limit: 10,
+          },
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `${(await Auth.currentSession()).getAccessToken().getJwtToken()}`
+          },
+        };
+        const response = await API.get(apiName, path, myInit);
+        setUsers(response.Users);
+      } catch (error) {
+        console.error('Error listing users', error);
+      }
+    };
+
+    listUsers();
+  }, []);
 
 
-  switch (value) {
-    case 3:
-      return (
-        <div>
-          <h1>Companies</h1>
-          <ul>
+  console.log(usersCognito);
 
-          </ul>
-        </div>
-      );
-    case 0:
+  const mergedUsers = usersCognito.map(usuario => {
+    const cognitoUser = usuarios.find(user => {
+      return usuario.Attributes.some(attr => attr.Name === 'sub' && attr.Value === user.sub);
+    });
+
+
+
+
+      const attributes = usuario.Attributes.reduce((acc, attr) => {
+        acc[attr.Name] = attr.Value;
+        return acc;
+      }, {});
+
+
+      return {
+        ...usuario,
+        ...cognitoUser,
+        ...attributes
+
+      };
+    
+
+ 
+  });
+
+  console.log(mergedUsers);
+
+
+
       return (
-        <UsuariosTable data={usuarios} loadingUsuarios={loadingUsuarios} />
+        <Grid container>
+          <Grid item xs={12} sm={8} md={8} lg={8} xl={8}>
+          <AlmacenesTable data={almacenes} />
+          </Grid>
+          <Grid item xs={12} sm={4} md={4} lg={4} xl={4}>
+            <List sx={{ bgcolor: 'background.paper' }}>
+              {mergedUsers.map((element) =>
+              (<ListItem secondaryAction={
+                element.id ?
+                  <IconButton edge="end" aria-label="delete" onClick={() => utilsAuth.isPermisoAuthorized(TypesUsuarios.getAllPermisos().VER_USUARIO, true)
+                    && moduloUsuario.pushPathView(element.id, '/usuario')}>
+                    <AssignmentTwoTone />
+                  </IconButton> :
+                  <IconButton edge="end" aria-label="delete" onClick={() => utilsAuth.isPermisoAuthorized(TypesUsuarios.getAllPermisos().AGREGAR_USUARIO, true)
+                    && moduloUsuario.pushPathCreate('/usuario', { sub: element.sub, username: element.Username })}>
+                    <GroupAddTwoTone />
+                  </IconButton>
+              }>
+                <ListItemAvatar>
+                  <Avatar variant="rounded">
+                    <AssignmentIndTwoTone color="primary" fontSize="large" />
+                  </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary={element.nombreUsuario || 'Usuario No Registrado BD.'} secondary={element.Username} />
+
+              </ListItem>))}
+
+
+            </List>
+          </Grid>
+
+        </Grid>
       );
-    case 1:
-      return (
-        <AlmacenesTable data={almacenes} />
-      );
-    case 2:
-      return (
-        <UsuariosCognitoTable />
-      );
-    default:
-      break;
-  }
+
 }
 
 Configuracion.getLayout = function getLayout(page) {
-  return <LayoutApp {...page.props} header={<ConfiguracionAppBar />}>{page}</LayoutApp>;
+  return <LayoutApp {...page.props} >{page}</LayoutApp>;
 };
 

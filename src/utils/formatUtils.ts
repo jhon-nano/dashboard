@@ -4,6 +4,8 @@ import {
 
   LazyAlmacen,
 
+  LazyInventario,
+
   LazyProducto,
 
   LazyUsuario, ModuloNew, Producto,
@@ -122,7 +124,22 @@ console.log(data)
     });
   };
 
-  
+      // INVENTARIOS
+
+      formatInventarioUpdateData(newData: any): LazyInventario | null {  // campos minimos requeridos para validar
+        //console.log(newData)
+        if (
+          !newData.precio
+          // Agrega aquí otros campos requeridos que desees validar
+        ) {
+          throw new Error("Faltan campos requeridos en los datos del inventario.");
+        }
+      
+        return ({
+          ...newData,
+          precio: this.formatNumber(newData.precio),
+        });
+      };
    //--------------------------------------------------------------------
 
   formatNombreCompleto(data: any) {

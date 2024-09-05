@@ -16,9 +16,11 @@ export const getModuloUserAlmacenes = /* GraphQL */ `
       }
       Almacen {
         id
-        codigo
-        nit
-        nombreAlmacen
+        organizationType
+        identificationNumber
+        dv
+        name
+        tradeName
         direccion
         ciudad
         telefono
@@ -26,6 +28,7 @@ export const getModuloUserAlmacenes = /* GraphQL */ `
         estantes
         niveles
         cajas
+        regimeCode
         estado
         createdAt
         updatedAt
@@ -230,9 +233,11 @@ export const getConsecutivo = /* GraphQL */ `
       }
       Almacen {
         id
-        codigo
-        nit
-        nombreAlmacen
+        organizationType
+        identificationNumber
+        dv
+        name
+        tradeName
         direccion
         ciudad
         telefono
@@ -240,6 +245,7 @@ export const getConsecutivo = /* GraphQL */ `
         estantes
         niveles
         cajas
+        regimeCode
         estado
         createdAt
         updatedAt
@@ -319,12 +325,27 @@ export const getAlmacen = /* GraphQL */ `
   query GetAlmacen($id: ID!) {
     getAlmacen(id: $id) {
       id
-      codigo
-      nit
-      nombreAlmacen
+      organizationType
+      identificationNumber
+      dv
+      name
+      tradeName
       direccion
       ciudad
       telefono
+      address {
+        address
+        city
+        department
+        country
+        __typename
+      }
+      contact {
+        name
+        email
+        phone
+        __typename
+      }
       secciones
       estantes
       niveles
@@ -336,6 +357,12 @@ export const getAlmacen = /* GraphQL */ `
         en_uso
         usuario_en_uso
         estado
+        __typename
+      }
+      regimeCode
+      taxCode {
+        email
+        phone
         __typename
       }
       estado
@@ -357,9 +384,11 @@ export const listAlmacens = /* GraphQL */ `
     listAlmacens(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        codigo
-        nit
-        nombreAlmacen
+        organizationType
+        identificationNumber
+        dv
+        name
+        tradeName
         direccion
         ciudad
         telefono
@@ -367,6 +396,7 @@ export const listAlmacens = /* GraphQL */ `
         estantes
         niveles
         cajas
+        regimeCode
         estado
         createdAt
         updatedAt
@@ -396,9 +426,11 @@ export const syncAlmacens = /* GraphQL */ `
     ) {
       items {
         id
-        codigo
-        nit
-        nombreAlmacen
+        organizationType
+        identificationNumber
+        dv
+        name
+        tradeName
         direccion
         ciudad
         telefono
@@ -406,6 +438,7 @@ export const syncAlmacens = /* GraphQL */ `
         estantes
         niveles
         cajas
+        regimeCode
         estado
         createdAt
         updatedAt
@@ -861,6 +894,267 @@ export const syncLineas = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        __typename
+      }
+      nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const getInventario = /* GraphQL */ `
+  query GetInventario($id: ID!) {
+    getInventario(id: $id) {
+      id
+      inventario
+      separado
+      costo_promedio
+      costo
+      precio
+      auditoria {
+        fecha
+        saldo
+        UsuarioID
+        __typename
+      }
+      ubicacion {
+        seccion
+        estante
+        nivel
+        caja
+        detalle
+        __typename
+      }
+      estado
+      Producto {
+        id
+        codigo
+        nombreProducto
+        nombreCorto
+        iva
+        venta
+        insumos
+        preparacion
+        barras
+        presentacion
+        descripcion
+        cambio_precio
+        datos_producto
+        imagen
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        productoLineaId
+        productoCategoriaId
+        productoMarcaId
+        __typename
+      }
+      Almacen {
+        id
+        organizationType
+        identificationNumber
+        dv
+        name
+        tradeName
+        direccion
+        ciudad
+        telefono
+        secciones
+        estantes
+        niveles
+        cajas
+        regimeCode
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      inventarioProductoId
+      inventarioAlmacenId
+      __typename
+    }
+  }
+`;
+export const listInventarios = /* GraphQL */ `
+  query ListInventarios(
+    $filter: ModelInventarioFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listInventarios(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        inventario
+        separado
+        costo_promedio
+        costo
+        precio
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        inventarioProductoId
+        inventarioAlmacenId
+        __typename
+      }
+      nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const syncInventarios = /* GraphQL */ `
+  query SyncInventarios(
+    $filter: ModelInventarioFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncInventarios(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        inventario
+        separado
+        costo_promedio
+        costo
+        precio
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        inventarioProductoId
+        inventarioAlmacenId
+        __typename
+      }
+      nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const getTicket = /* GraphQL */ `
+  query GetTicket($id: ID!) {
+    getTicket(id: $id) {
+      id
+      consecutivo
+      Almacen {
+        id
+        organizationType
+        identificationNumber
+        dv
+        name
+        tradeName
+        direccion
+        ciudad
+        telefono
+        secciones
+        estantes
+        niveles
+        cajas
+        regimeCode
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      Usuario {
+        id
+        username
+        nombreUsuario
+        sub
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      estado
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      ticketAlmacenId
+      ticketUsuarioId
+      __typename
+    }
+  }
+`;
+export const listTickets = /* GraphQL */ `
+  query ListTickets(
+    $filter: ModelTicketFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTickets(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        consecutivo
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        ticketAlmacenId
+        ticketUsuarioId
+        __typename
+      }
+      nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const syncTickets = /* GraphQL */ `
+  query SyncTickets(
+    $filter: ModelTicketFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncTickets(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        consecutivo
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        ticketAlmacenId
+        ticketUsuarioId
         __typename
       }
       nextToken

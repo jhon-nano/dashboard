@@ -507,8 +507,7 @@ export function SibeBarApp({
 
 
       <HomeButton />
-      <ModuloButton />
-      <CreateButton />
+
 
 
 
@@ -518,7 +517,7 @@ export function SibeBarApp({
         .sort((a, b) => a.nombreModulo.localeCompare(b.nombreModulo))  
         .map((modulo, i) => (
             <Box key={i} >
-              {!state?.leftEdgeSidebar?.collapsed || state?.leftEdgeSidebar?.open && pathnames.length < 2 ?
+              {!state?.leftEdgeSidebar?.collapsed || state?.leftEdgeSidebar?.open  ?
                 (<>
                   <ListItemButton
                     selected={`/${pathnames[0]}` === modulo?.path}
@@ -571,68 +570,10 @@ export function SibeBarApp({
 
 
                   </ListItemButton>
-                  {modulo.submodulos &&
-                    <Collapse in={openStates[modulo.path]} timeout="auto" unmountOnExit>
-                      <List dense component="div" disablePadding>
-                        {Object.keys(modulo.submodulos).map((submodKey) => {
-
-                          const submod = modulo.submodulos[submodKey];
-
-                          return submod.visible && (
-                            <ListItemButton key={submodKey} sx={{ pl: 2 }} divider
-                              onClick={() => utilsAuth.isModuloAuthorized(submod, true) && modulo.pushPath()}
-
-                            >
-                              <ListItemIcon sx={{ margin: 0.2, paddingLeft: 0.5, paddingRight: 0.5 }}>
-
-                                <IconButton
-
-                                  sx={{
-                                    boxShadow: `0 0 8px ${theme.palette.primary.main}`,
-                                    background: `/${pathnames[0]}` === submod?.path
-                                      ? `${theme.palette.secondary.main}`
-                                      : `white`,
-                                  }}
-                                >
-                                  <Icon color='primary' style={{
-                                    fontSize: 25,
-                                    color: `/${pathnames[0]}` === submod?.path
-                                      ? `white`
-                                      : null,
-                                  }}>
-                                    {submod?.icon}
-                                  </Icon>
-                                </IconButton>
-                              </ListItemIcon>
-                              <ListItemText
-                                sx={{
-                                  borderRadius: "3%",
-                                  WebkitTextStroke: "1px " + theme?.palette?.text.secondary,
-                                }}
-                                primary={'SUB LINEA'}
-
-
-                                primaryTypographyProps={{
-                                  noWrap: true,
-
-                                  variant: 'caption'
-                                }}
-                                secondary={submod?.nombreModulo?.toUpperCase()}
-                              />
-                            </ListItemButton>)
-                        })}
-                      </List>
-                    </Collapse>}
                 </>
                 ) :
                 (
-                  (router.pathname !== "/") && pathnames.length < 2 ||
-                    router.pathname == '/ventas/pedidos' ||
-                    router.pathname == '/ventas/cotizacion' ||
-                    router.pathname == '/carteras/clientes' ||
-                    router.pathname == '/carteras/proveedores' ||
-                    router.pathname == '/documentos/recaudo' ||
-                    router.pathname == '/documentos/pagos' ?
+                  (router.pathname !== "/") ?
                     <>
                       <Stack
                         alignItems={"center"}

@@ -4,12 +4,12 @@
  * Any changes to this file will be overwritten when running amplify pull. *
  **************************************************************************/
 
-export { default as AlmacenCreateForm } from "./AlmacenCreateForm";
-export { default as AlmacenUpdateForm } from "./AlmacenUpdateForm";
 export { default as CategoriaCreateForm } from "./CategoriaCreateForm";
 export { default as CategoriaUpdateForm } from "./CategoriaUpdateForm";
 export { default as ConsecutivoCreateForm } from "./ConsecutivoCreateForm";
 export { default as ConsecutivoUpdateForm } from "./ConsecutivoUpdateForm";
+export { default as InventarioCreateForm } from "./InventarioCreateForm";
+export { default as InventarioUpdateForm } from "./InventarioUpdateForm";
 export { default as LineaCreateForm } from "./LineaCreateForm";
 export { default as LineaUpdateForm } from "./LineaUpdateForm";
 export { default as MarcaCreateForm } from "./MarcaCreateForm";

@@ -2,7 +2,7 @@
 import { DataStore, Predicates, SortDirection } from "aws-amplify";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AjusteInventarioItem, Categoria, CompraItem, PedidoItem, Producto } from "../../models";
+import { AjusteInventarioItem, Categoria, CompraItem, Inventario, PedidoItem, Producto } from "../../models";
 import { queryProductos } from "../../store/actions/productos";
 
 export function useModelProductoById(id) {
@@ -79,6 +79,10 @@ export function useModelProductoById(id) {
           setLoading(false);    // Finalizar la carga con error estableciendo loading en falso
         }
       );
+
+
+
+
       // Función de limpieza que se ejecuta cuando el componente se desmonta o el ID cambia
       return () => {
         sub.unsubscribe(); // Desuscribirse de las actualizaciones del modelo para evitar fugas de memoria
@@ -96,7 +100,56 @@ export function useModelProductoById(id) {
   return { loading, producto, linea, categoria, marca, error };
 }
 
+export function useModelInventarioByProductoId(inventarioProductoId) {
 
+
+
+
+  const [inventarioProducto, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState();
+
+  useEffect(() => {
+
+    const subscription = DataStore.observeQuery(
+      Inventario,
+      (p) =>
+        p.and((p) => [
+          p.inventarioProductoId.eq(inventarioProductoId)
+        ]),
+      {
+        sort: (s) => s.createdAt(SortDirection.ASCENDING),
+      }
+    ).subscribe(async (snapshot) => {
+      const { items } = snapshot;
+
+
+
+      const data = await Promise.all(
+        items.map(async (item) => {
+          const almacen = await item.Almacen;
+          return { ...item, Almacen: almacen };
+        })
+      );
+
+      setData(data);
+      setLoading(false);
+
+
+    });
+
+    return () => {
+      subscription.unsubscribe();
+      setData([]);
+      setLoading(false);
+    };
+
+
+  }, [inventarioProductoId])
+
+
+  return { loading, inventarioProducto, error };
+};
 export function useModelProductos() {
 
   const dispatch = useDispatch();

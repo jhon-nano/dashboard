@@ -2,6 +2,11 @@ import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from "@aws-
 // @ts-ignore
 import { LazyLoading, LazyLoadingDisabled, AsyncItem } from "@aws-amplify/datastore";
 
+export enum EstadoTicket {
+  PENDIENTE = "PENDIENTE",
+  CANCELADO = "CANCELADO"
+}
+
 export enum TipoTerceros {
   CC = "CC",
   NIT = "NIT",
@@ -126,6 +131,54 @@ type LazyDatosSolicitud = {
 export declare type DatosSolicitud = LazyLoading extends LazyLoadingDisabled ? EagerDatosSolicitud : LazyDatosSolicitud
 
 export declare const DatosSolicitud: (new (init: ModelInit<DatosSolicitud>) => DatosSolicitud)
+
+type EagerTaxCode = {
+  readonly email?: string | null;
+  readonly phone?: string | null;
+}
+
+type LazyTaxCode = {
+  readonly email?: string | null;
+  readonly phone?: string | null;
+}
+
+export declare type TaxCode = LazyLoading extends LazyLoadingDisabled ? EagerTaxCode : LazyTaxCode
+
+export declare const TaxCode: (new (init: ModelInit<TaxCode>) => TaxCode)
+
+type EagerDireccion = {
+  readonly address?: string | null;
+  readonly city?: string | null;
+  readonly department?: string | null;
+  readonly country?: string | null;
+}
+
+type LazyDireccion = {
+  readonly address?: string | null;
+  readonly city?: string | null;
+  readonly department?: string | null;
+  readonly country?: string | null;
+}
+
+export declare type Direccion = LazyLoading extends LazyLoadingDisabled ? EagerDireccion : LazyDireccion
+
+export declare const Direccion: (new (init: ModelInit<Direccion>) => Direccion)
+
+type EagerContact = {
+  readonly name?: string | null;
+  readonly email?: string | null;
+  readonly phone?: string | null;
+}
+
+type LazyContact = {
+  readonly name?: string | null;
+  readonly email?: string | null;
+  readonly phone?: string | null;
+}
+
+export declare type Contact = LazyLoading extends LazyLoadingDisabled ? EagerContact : LazyContact
+
+export declare const Contact: (new (init: ModelInit<Contact>) => Contact)
 
 type EagerProductoProveedor = {
   readonly nit_proveedor: string;
@@ -397,18 +450,24 @@ type EagerAlmacen = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly codigo?: string | null;
-  readonly nit?: string | null;
-  readonly nombreAlmacen: string;
-  readonly direccion?: string | null;
-  readonly ciudad?: string | null;
-  readonly telefono?: string | null;
+  readonly organizationType: number;
+  readonly identificationNumber: string;
+  readonly dv?: string | null;
+  readonly name: string;
+  readonly tradeName: string;
+  readonly direccion: string;
+  readonly ciudad: string;
+  readonly telefono: string;
+  readonly address: Direccion;
+  readonly contact?: Contact | null;
   readonly secciones?: (string | null)[] | null;
   readonly estantes?: (string | null)[] | null;
   readonly niveles?: (string | null)[] | null;
   readonly cajas?: (string | null)[] | null;
   readonly cajas_registradoras?: (CajaRegistradora | null)[] | null;
-  readonly estado?: Estado | keyof typeof Estado | null;
+  readonly regimeCode?: string | null;
+  readonly taxCode?: TaxCode | null;
+  readonly estado: Estado | keyof typeof Estado;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -419,18 +478,24 @@ type LazyAlmacen = {
     readOnlyFields: 'createdAt' | 'updatedAt';
   };
   readonly id: string;
-  readonly codigo?: string | null;
-  readonly nit?: string | null;
-  readonly nombreAlmacen: string;
-  readonly direccion?: string | null;
-  readonly ciudad?: string | null;
-  readonly telefono?: string | null;
+  readonly organizationType: number;
+  readonly identificationNumber: string;
+  readonly dv?: string | null;
+  readonly name: string;
+  readonly tradeName: string;
+  readonly direccion: string;
+  readonly ciudad: string;
+  readonly telefono: string;
+  readonly address: Direccion;
+  readonly contact?: Contact | null;
   readonly secciones?: (string | null)[] | null;
   readonly estantes?: (string | null)[] | null;
   readonly niveles?: (string | null)[] | null;
   readonly cajas?: (string | null)[] | null;
   readonly cajas_registradoras?: (CajaRegistradora | null)[] | null;
-  readonly estado?: Estado | keyof typeof Estado | null;
+  readonly regimeCode?: string | null;
+  readonly taxCode?: TaxCode | null;
+  readonly estado: Estado | keyof typeof Estado;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -635,4 +700,92 @@ export declare type Linea = LazyLoading extends LazyLoadingDisabled ? EagerLinea
 
 export declare const Linea: (new (init: ModelInit<Linea>) => Linea) & {
   copyOf(source: Linea, mutator: (draft: MutableModel<Linea>) => MutableModel<Linea> | void): Linea;
+}
+
+type EagerInventario = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Inventario, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly inventario: number;
+  readonly separado: number;
+  readonly costo_promedio?: number | null;
+  readonly costo: number;
+  readonly precio: number;
+  readonly auditoria?: AuditoriaInventario | null;
+  readonly ubicacion?: (UbicacionInventario | null)[] | null;
+  readonly estado?: Estado | keyof typeof Estado | null;
+  readonly Producto?: Producto | null;
+  readonly Almacen?: Almacen | null;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly inventarioProductoId?: string | null;
+  readonly inventarioAlmacenId?: string | null;
+}
+
+type LazyInventario = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Inventario, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly inventario: number;
+  readonly separado: number;
+  readonly costo_promedio?: number | null;
+  readonly costo: number;
+  readonly precio: number;
+  readonly auditoria?: AuditoriaInventario | null;
+  readonly ubicacion?: (UbicacionInventario | null)[] | null;
+  readonly estado?: Estado | keyof typeof Estado | null;
+  readonly Producto: AsyncItem<Producto | undefined>;
+  readonly Almacen: AsyncItem<Almacen | undefined>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly inventarioProductoId?: string | null;
+  readonly inventarioAlmacenId?: string | null;
+}
+
+export declare type Inventario = LazyLoading extends LazyLoadingDisabled ? EagerInventario : LazyInventario
+
+export declare const Inventario: (new (init: ModelInit<Inventario>) => Inventario) & {
+  copyOf(source: Inventario, mutator: (draft: MutableModel<Inventario>) => MutableModel<Inventario> | void): Inventario;
+}
+
+type EagerTicket = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Ticket, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly consecutivo: number;
+  readonly Almacen: Almacen;
+  readonly Usuario: Usuario;
+  readonly estado: EstadoTicket | keyof typeof EstadoTicket;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly ticketAlmacenId: string;
+  readonly ticketUsuarioId: string;
+}
+
+type LazyTicket = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<Ticket, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly consecutivo: number;
+  readonly Almacen: AsyncItem<Almacen>;
+  readonly Usuario: AsyncItem<Usuario>;
+  readonly estado: EstadoTicket | keyof typeof EstadoTicket;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly ticketAlmacenId: string;
+  readonly ticketUsuarioId: string;
+}
+
+export declare type Ticket = LazyLoading extends LazyLoadingDisabled ? EagerTicket : LazyTicket
+
+export declare const Ticket: (new (init: ModelInit<Ticket>) => Ticket) & {
+  copyOf(source: Ticket, mutator: (draft: MutableModel<Ticket>) => MutableModel<Ticket> | void): Ticket;
 }

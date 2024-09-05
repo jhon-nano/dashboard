@@ -226,7 +226,7 @@ export default function Productos({ value, userStore, utilsAuth, appStore }) {
         return (
           <MaterialTable
 
-            title={
+            title={ breakpoints_sm &&
               <CardHeader
                 avatar={
                   <Avatar variant='rounded' sx={{ width: 50, height: 50 }}>
@@ -291,14 +291,14 @@ export default function Productos({ value, userStore, utilsAuth, appStore }) {
                 grouping: false,
                 initialEditValue: '',
                 headerStyle: {
-                  width: "34%",
-                  maxWidth: "34%",
+                  width: "64%",
+                  maxWidth: "64%",
                   align: "center",
                   fontSize: 12
                 },
                 cellStyle: (rowData) => ({
-                  width: "34%",
-                  maxWidth: "34%",
+                  width: "64%",
+                  maxWidth: "64%",
                   fontSize: 12
                 }),
               },
@@ -346,6 +346,7 @@ export default function Productos({ value, userStore, utilsAuth, appStore }) {
                 field: "productoLineaId",
                 align: "center",
                 type: "string",
+                hidden: breakpoints_sm ? false : true,
                 lookup: data_lineas?.reduce((acc, { id, codigo, nombreLinea }) => {
                   acc[id] = nombreLinea;
                   return acc;
@@ -638,8 +639,8 @@ export default function Productos({ value, userStore, utilsAuth, appStore }) {
               ...material_table.options,
               filtering: filtering,
               grouping: grouping,
-              columnsButton: utilsAuth.isPermisoAuthorized(TypesProductos.getAllPermisos().VER_COLUMNAS_PRODUCTO, false),
-
+              columnsButton: breakpoints_sm && utilsAuth.isPermisoAuthorized(TypesProductos.getAllPermisos().VER_COLUMNAS_PRODUCTO, false),
+              
 
             }}
             icons={material_table.icons}
@@ -671,26 +672,7 @@ export default function Productos({ value, userStore, utilsAuth, appStore }) {
               },
 
             ]}
-            editable={utilsAuth.isPermisoAuthorized(TypesProductos.getAllPermisos().UPDATE_PRODUCTOS_ALL, false) ? {
-              onBulkUpdate: (changes) => {
-                return new Promise((resolve, reject) => {
-                  setTimeout(() => {
-                    Object.values(changes).map(({ newData, oldData }, i) => {
-                      console.log(oldData)
-                      console.log(newData)
-                      const formattedData = utilsFormat.formatProductoUpdateDataAll(newData);
 
-                      serviceProducto.update(oldData.id, formattedData)
-
-
-                    })
-                    resolve();
-                  }, 1000);
-                });
-              },
-
-
-            } : {}}
           />
         );
       case 1:

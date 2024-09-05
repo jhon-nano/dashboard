@@ -11,20 +11,14 @@ export default class AlmacenService extends BaseService<Almacen>  implements IAl
     
     async  create(data: LazyAlmacen): Promise<LazyAlmacen | null> {
         const existe1 = await this.getAlmacenByNombre(
-          this.removeSpacesUpperCase(data.nombreAlmacen)
+          this.removeSpacesUpperCase(data.name)
         );
            // Verificar si se encontró la Categoria con ese Nombre
         if (existe1 == null || existe1.length > 0 ) {
           throw new CustomNotification("Nombre ya existe.", 404);
         }
-        const existe2 = await this.getAlmacenByCodigo(
-          this.removeSpacesUpperCase(data.nombreAlmacen)
-        );
-           // Verificar si se encontró la Categoria con ese Nombre
-        if (existe2 == null || existe2.length > 0 ) {
-          throw new CustomNotification("Codigo ya existe.", 404);
-        }
 
+ 
         return await DataStore.save(data);
     }
 
@@ -41,13 +35,10 @@ export default class AlmacenService extends BaseService<Almacen>  implements IAl
             }
       
             const existe1 = await this.getAlmacenByNombre(
-              this.removeSpacesUpperCase(data.nombreAlmacen)
+              this.removeSpacesUpperCase(data.name)
             );
                // Verificar si se encontró la Categoria con ese Nombre
 
-            const existe2 = await this.getAlmacenByCodigo(
-              this.removeSpacesUpperCase(data.codigo)
-            );
 
       
             // Filtrar el resultado para excluir la almacen que se está actualizando
@@ -55,25 +46,17 @@ export default class AlmacenService extends BaseService<Almacen>  implements IAl
               (m) => m.id !== data.id
             );
       
-            // Filtrar el resultado para excluir la almacen que se está actualizando
-            const otrasDatosConElMismoCodigo = existe2?.filter(
-              (m) => m.id !== data.id
-            );
 
             // Verificar si existe otra almacen activa con el mismo nombre
             if (!otrasDatosConElMismoNombre || otrasDatosConElMismoNombre.length > 0) {
               throw new CustomNotification("Ya existe una Almacen con ese nombre.", 409);
             }
-            // Verificar si existe otra almacen activa con el mismo nombre
-              if (!otrasDatosConElMismoCodigo || otrasDatosConElMismoCodigo.length > 0) {
-              throw new CustomNotification("Ya existe una Almacen con ese codigo.", 409);
-            }
+
             
             return await DataStore.save(
               Almacen.copyOf(almacen, (updated) => {
-                updated.codigo = data.codigo || almacen.codigo;
-                updated.nit = data.nit || almacen.nit;
-                updated.nombreAlmacen = data.nombreAlmacen || almacen.nombreAlmacen;
+
+                updated.name = data.name || almacen.name;
                 updated.direccion = data.direccion || almacen.direccion;
                 updated.telefono = data.telefono || almacen.telefono;
                 updated.ciudad = data.ciudad || almacen.ciudad;
@@ -137,7 +120,7 @@ export default class AlmacenService extends BaseService<Almacen>  implements IAl
     async getAlmacenByNombre(nombreAlmacen: string): Promise<LazyAlmacen[] | null> {
  
             const almacen = await DataStore.query(Almacen, (p) =>
-            p.and((p) => [p.nombreAlmacen.eq(nombreAlmacen)])
+            p.and((p) => [p.tradeName.eq(nombreAlmacen)])
           );
             
           if (!almacen) {
@@ -148,19 +131,7 @@ export default class AlmacenService extends BaseService<Almacen>  implements IAl
 
     }
 
-    async getAlmacenByCodigo(codigo: string): Promise<LazyAlmacen[] | null> {
 
-          const almacen = await DataStore.query(Almacen, (p) =>
-          p.and((p) => [p.codigo.eq(codigo)])
-        );
-          
-        if (!almacen) {
-          throw new CustomNotification("No se pudo obtener el Almacen.", 404);
-        }
-  
-          return almacen ;
-
-    }
 
     async updateSecciones(id: string, data: any): Promise<LazyAlmacen | null> {
           

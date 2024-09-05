@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useMemo } from "react";
 // layout for this page
-import { Content, Footer, Fullscreen, getContentBasedScheme, Root } from "@mui-treasury/layout";
-import { Stack } from "@mui/material";
+import MaterialTable from "@material-table/core";
+import { getContentBasedScheme } from "@mui-treasury/layout";
 import {
   BarElement,
   CategoryScale,
@@ -13,10 +13,10 @@ import {
   Title,
   Tooltip,
 } from "chart.js";
-import moment from "moment";
+import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
-import FormFooterInformes from "../../components/informes/FormFooter";
-import LayoutCaja from "../../layout/LayoutCaja";
+import LayoutApp from "../../layout/LayoutApp";
+import TypesTickets from "../../types/typesTickets";
 
 
 
@@ -34,58 +34,52 @@ ChartJS.register(
 );
 
 
-function Index() {
+function Index({utilsAuth}) {
 
+  const router = useRouter();
+  const { material_table } = useSelector((state) => state.app)
 
- 
-
-  const informes = useSelector((state) => state.informes);
-
-
-
- 
-
-  const [filter, setFilter] = useState('week')
-  const [filterData, setFilterData] = useState(0)
-
-
-  const startOfDay = moment(moment().add(filterData, filter)).startOf(filter).format('LL');
-  const endOfDay = moment(moment().add(filterData, filter)).endOf(filter).format('LL');
-
-
-
-
+  const moduloTickets = useMemo(() => new TypesTickets(router), [router]);
 
 
   return (<>
 
-    <Fullscreen >
-      <Root scheme={{
-        ...scheme,
 
-      }}>
-    
-        <Stack sx={{
-          flex: '1 1 auto',
-          overflowY: 'auto',
-        }} >
+    <MaterialTable
+      title='TICKETS'
+      columns={[
+        { title: 'Name', field: 'name' },
+        { title: 'Surname', field: 'surname' },
+        { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
+        {
+          title: 'Birth Place',
+          field: 'birthCity',
+          lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
+        },
+      ]}
+      data={[
+        { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
+        { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017, birthCity: 34 },
+      ]}
+      actions={[
+        {
+          icon: 'add',
+          tooltip: 'Add User',
+          isFreeAction: true,
+          onClick: (event,rowData) => utilsAuth.isPermisoAuthorized(TypesTickets.getAllPermisos().CREATE_TICKET, true)
+            && moduloTickets.pushPathCreate('/ticket')
+        }
+      ]}
+      options={{
+        ...material_table.options,
+        search: false,
+        pageSize: 15
+      }}
+      icons={material_table.icons}
+      style={material_table.style}
+      localization={material_table.localization}
+    />
 
-
-          <Content  >
-
-
-
-              CONTENIDO
-
-          </Content>
-        </Stack>
-
-        <Footer >
-          PedidoFormFooter
-        </Footer>
-
-      </Root>
-    </Fullscreen>
 
 
 
@@ -99,7 +93,7 @@ function Index() {
 
 Index.getLayout = function getLayout(page) {
 
-  return <LayoutCaja {...page.props}  >{page}</LayoutCaja>;
+  return <LayoutApp {...page.props}  >{page}</LayoutApp>;
 };
 
 

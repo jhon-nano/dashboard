@@ -28,18 +28,25 @@ type Consecutivo @model @auth(rules: [{allow: private}]) {
 
 type Almacen @model @auth(rules: [{allow: private}]) {
   id: ID!
-  codigo: String
-  nit: String
-  nombreAlmacen: String!
-  direccion: String
-  ciudad: String
-  telefono: String
+
+  organizationType: Float! # Tipo de organización
+  identificationNumber: String! # Número de identificación
+  dv: String # DV
+  name: String! # Nombre
+  tradeName: String! # Nombre comercial
+  direccion: String!
+  ciudad: String!
+  telefono: String!
+  address: Direccion! # Dirección
+  contact: Contact
   secciones: [String]
   estantes: [String]
   niveles: [String]
   cajas: [String]
   cajas_registradoras: [CajaRegistradora]
-  estado: Estado
+  regimeCode: String # Código de régimen
+  taxCode: TaxCode # Código fiscal
+  estado: Estado!
 }
 
 type Usuario @model @auth(rules: [{allow: private}]) {
@@ -97,6 +104,36 @@ type Linea @model @auth(rules: [{allow: private}]) {
 }
 
  ## PRODUCTOS END 
+
+## INVENTARIOS
+
+type Inventario @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  inventario: Float!
+  separado: Float!
+  costo_promedio: Float
+  costo: Float!
+  precio: Int!
+  auditoria: AuditoriaInventario
+  ubicacion: [UbicacionInventario]
+  estado: Estado
+  Producto: Producto @hasOne
+  Almacen: Almacen @hasOne
+}
+
+## INVENTARIOS
+type Ticket @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  consecutivo: Int!
+  Almacen: Almacen! @hasOne
+  Usuario: Usuario! @hasOne
+  estado:EstadoTicket!
+}
+
+enum EstadoTicket {
+  PENDIENTE
+  CANCELADO
+}
 
 
 ########################################################
@@ -201,6 +238,31 @@ enum Estado {
 }
 
 #########################################################
+
+type TaxCode { # Código fiscal
+  email: String # Correo electrónico
+  phone: String # Teléfono
+}
+
+type Direccion { # Dirección
+  address: String # Dirección del lugar fisico.
+  city: String 
+  # Código de la Ciudad. Se debe colocar el Código que corresponda de la tabla de 
+  # municipios disponibles de la DIAN. Se debe informar cuando el código del País es 'CO'.
+  department: String 
+  # Código del Departamento. Se debe colocar el Código que corresponda de la tabla 
+  # de departamentos disponibles de la DIAN. Se debe informar cuando el código del País es 'CO'.
+  country: String 
+  # Código identificador del País. Se debe colocar el código que corresponda de la 
+  # tabla de países disponibles de la DIAN. Por defecto 'CO'.
+}
+
+type Contact { # Contacto
+  name: String # Nombre
+  email: String # Correo electrónico
+  phone: String # Teléfono
+}
+
 
 type ProductoProveedor {
   nit_proveedor: String!

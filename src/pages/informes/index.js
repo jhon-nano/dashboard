@@ -17,6 +17,7 @@ import moment from "moment";
 import { useSelector } from "react-redux";
 import FormFooterInformes from "../../components/informes/FormFooter";
 import LayoutCaja from "../../layout/LayoutCaja";
+import LayoutApp from "../../layout/LayoutApp";
 
 
 
@@ -102,7 +103,7 @@ export default function IndexInformes() {
 
 IndexInformes.getLayout = function getLayout(page) {
 
-  return <LayoutCaja {...page.props}  >{page}</LayoutCaja>;
+  return <LayoutApp {...page.props}  >{page}</LayoutApp>;
 };
 
 

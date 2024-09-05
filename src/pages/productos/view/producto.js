@@ -6,7 +6,7 @@ import {
 import { Storage } from 'aws-amplify';
 import moment from "moment";
 import { useRouter } from "next/router";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import MaterialTable from "@material-table/core";
 import { Content, Footer, Fullscreen, getContentBasedScheme, Root } from "@mui-treasury/layout";
@@ -18,9 +18,9 @@ import ProductosCard from "../../../components/productos/ProductoCard";
 import { ProductosImageList } from "../../../components/productos/ProductosImageList";
 import ProductoViewEmcabezado from "../../../components/productos/view/ProductoViewEmcabezado";
 import ProductoViewFooter from "../../../components/productos/view/ProductoViewFooter";
-import { useModelProductoById } from "../../../hooks/models/useModelProducto";
+import { useModelInventarioByProductoId, useModelProductoById } from "../../../hooks/models/useModelProducto";
 import LayoutCaja from "../../../layout/LayoutCaja";
-
+import InventariosHelpers from './../../../helpers/inventariosHelpers'
 
 moment.locale("es");
 
@@ -42,6 +42,9 @@ export default function ProductoID(props) {
 
 
 
+  const helperInventario = useMemo(() => new InventariosHelpers(enqueueSnackbar, dispatch, confirm), [enqueueSnackbar, dispatch, confirm]);
+
+
 
   const {
     loading: loadingProducto,
@@ -52,7 +55,7 @@ export default function ProductoID(props) {
     error: errorProducto,
   } = useModelProductoById(router.query.id);
 
-
+const { inventarioProducto } = useModelInventarioByProductoId(producto?.id)
 
   const { material_table } = appStore
   const { almacenesAutorizados } = userStore
@@ -60,80 +63,9 @@ export default function ProductoID(props) {
   const [documentos, setDocumentos] = useState([]);
   const [open_inventarios, setOpenInventarios] = useState(false);
 
-  const [inventarios, setInventa] = useState([]);
 
 
 
-
-  const listFiles = () => {
-
-
-
-    Storage.list(`/productos/${producto.codigo}/`)
-      .then((data) => {
-        setDocumentos([]);
-        if (data.results.length > 0) {
-          const arraySinPDF = data.results.filter(elemento => !elemento.key.endsWith(".pdf"));
-          //console.log('setDocumentos')
-          setDocumentos(arraySinPDF);
-        }
-      })
-      .catch((e) => console.error(e));
-  };
-
-
-  const onRemoveDocumento = (key) => {
-    try {
-      confirm({
-        title: "Confirma que desea Eliminar Documento?",
-        description: key,
-        confirmationText: "Si",
-        cancellationText: "Cancelar",
-      })
-        .then(async () => {
-          //console.log("ELIMINANDO");
-
-          await Storage.remove(documentos[key].key);
-
-          listFiles();
-        })
-        .catch((error) => {
-          //console.log(error);
-          //dispatch({ type: 'LOADING', isLoading: false })
-        });
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const onChangeUpload = (files) => {
-
-    try {
-      Array.from(files).map(async (file, i) => {
-        await Storage.put(`/productos/${producto.codigo}/` + file.name, file, {
-          contentType: "image/*",
-        })
-          .then((data) => {
-
-
-            listFiles();
-          })
-          .catch((e) => console.error(e));
-      });
-    } catch (error) {
-      //console.log("Error uploading file: ", error);
-    }
-  };
-
-
-  useEffect(() => {
-    if (producto) {
-
-
-      listFiles();
-
-    }
-  }, [producto]);
 
 
 
@@ -147,7 +79,7 @@ export default function ProductoID(props) {
             linea={linea}
             categoria={categoria}
             marca={marca}
-            inventarios={[]}
+            inventarios={inventarioProducto}
           />
         );
       case 1:
@@ -164,7 +96,7 @@ export default function ProductoID(props) {
     linea,
     categoria,
     marca,
-    inventarios
+    inventarioProducto
   ]);
 
 
@@ -177,7 +109,7 @@ export default function ProductoID(props) {
             ...scheme,
 
           }}>
-            <ProductoViewEmcabezado producto={producto} value={value} setValue={setValue} onChangeUpload={onChangeUpload} setOpenInventarios={setOpenInventarios} />
+            <ProductoViewEmcabezado producto={producto} value={value} setValue={setValue}  setOpenInventarios={setOpenInventarios} />
 
             <Stack sx={{
               flex: '1 1 auto',
@@ -195,7 +127,7 @@ export default function ProductoID(props) {
             </Stack>
 
             <Footer>
-              <ProductoViewFooter inventarios={inventarios} setOpenInventarios={setOpenInventarios} />
+              <ProductoViewFooter inventarios={inventarioProducto} setOpenInventarios={setOpenInventarios} />
             </Footer>
 
           </Root>
@@ -214,21 +146,21 @@ export default function ProductoID(props) {
           <DialogContent >
             <MaterialTable
               title={'Almacenes Autorizados'}
-              data={inventarios}
+              data={inventarioProducto}
 
               columns={[
                 {
                   title: "Almacen",
                   field: "inventarioAlmacenId",
-                  lookup: almacenesAutorizados?.reduce((acc, { id, codigo, nombreAlmacen }) => {
-                    acc[id] = nombreAlmacen;
+                  lookup: almacenesAutorizados?.reduce((acc, { id, codigo, tradeName }) => {
+                    acc[id] = tradeName;
                     return acc;
                   }, {}),
                 },
 
-                { title: "Inventario", field: "inventario", type: 'numeric', initialEditValue: 0, editable: 'never' },
-                { title: "Separado", field: "separado", type: 'numeric', initialEditValue: 0, editable: 'never' },
-                { title: "Costo", field: "costo", type: 'numeric', initialEditValue: 0, editable: 'never', hidden: true },
+                { title: "Inventario", field: "inventario", hidden:true,type: 'numeric', initialEditValue: 0, editable: 'never' },
+                { title: "Separado", field: "separado", hidden:true, type: 'numeric', initialEditValue: 0, editable: 'never' },
+                { title: "Costo", field: "costo", type: 'numeric',hidden:true, initialEditValue: 0, editable: 'never', hidden: true },
                 { title: "Precio", field: "precio", type: 'numeric', initialEditValue: 0 },
 
               ]}
@@ -240,8 +172,8 @@ export default function ProductoID(props) {
               localization={material_table.localization}
               style={material_table.style}
               editable={{
-
-
+                onRowAdd: (newData) => helperInventario.onRowAddTableInventario(newData, producto.id),
+                onRowUpdate: (newData,oldData) => helperInventario.onRowUpdateTableInventario(newData, oldData),
               }}
             />
           </DialogContent>

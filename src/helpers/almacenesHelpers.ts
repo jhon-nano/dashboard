@@ -24,14 +24,23 @@ export default class AlmacenesHelpers {
     return new Promise((resolve, reject) => {
       setTimeout(async () => {
           try {
-
+              console.log(newData);
+              
               const almacenData = new Almacen({
-                codigo: newData.codigo,
-                nit: newData.nit,
-                nombreAlmacen: newData.nombreAlmacen,
+                organizationType: Number(newData.organizationType),
+          
+                identificationNumber: newData.identificationNumber,
+                name: newData.name,
                 direccion: newData.direccion,
+                address: {
+                  address: newData.direccion,
+                  department: String(newData.departments),
+                  city: 'CO',
+                  country: newData.ciudad
+                },
                 telefono: newData.telefono,
                 ciudad: newData.ciudad,
+                tradeName: newData.tradeName,
                 estado: Estado.ACTIVO,
               });
             

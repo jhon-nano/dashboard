@@ -332,22 +332,36 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "codigo": {
-                    "name": "codigo",
+                "organizationType": {
+                    "name": "organizationType",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "identificationNumber": {
+                    "name": "identificationNumber",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "dv": {
+                    "name": "dv",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
-                "nit": {
-                    "name": "nit",
+                "name": {
+                    "name": "name",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
-                "nombreAlmacen": {
-                    "name": "nombreAlmacen",
+                "tradeName": {
+                    "name": "tradeName",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
@@ -357,20 +371,38 @@ export const schema = {
                     "name": "direccion",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "ciudad": {
                     "name": "ciudad",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "telefono": {
                     "name": "telefono",
                     "isArray": false,
                     "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "address": {
+                    "name": "address",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "Direccion"
+                    },
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "contact": {
+                    "name": "contact",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "Contact"
+                    },
                     "isRequired": false,
                     "attributes": []
                 },
@@ -416,13 +448,29 @@ export const schema = {
                     "attributes": [],
                     "isArrayNullable": true
                 },
+                "regimeCode": {
+                    "name": "regimeCode",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "taxCode": {
+                    "name": "taxCode",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "TaxCode"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "estado": {
                     "name": "estado",
                     "isArray": false,
                     "type": {
                         "enum": "Estado"
                     },
-                    "isRequired": false,
+                    "isRequired": true,
                     "attributes": []
                 },
                 "createdAt": {
@@ -1009,9 +1057,299 @@ export const schema = {
                     }
                 }
             ]
+        },
+        "Inventario": {
+            "name": "Inventario",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "inventario": {
+                    "name": "inventario",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "separado": {
+                    "name": "separado",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "costo_promedio": {
+                    "name": "costo_promedio",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "costo": {
+                    "name": "costo",
+                    "isArray": false,
+                    "type": "Float",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "precio": {
+                    "name": "precio",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "auditoria": {
+                    "name": "auditoria",
+                    "isArray": false,
+                    "type": {
+                        "nonModel": "AuditoriaInventario"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "ubicacion": {
+                    "name": "ubicacion",
+                    "isArray": true,
+                    "type": {
+                        "nonModel": "UbicacionInventario"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true
+                },
+                "estado": {
+                    "name": "estado",
+                    "isArray": false,
+                    "type": {
+                        "enum": "Estado"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "Producto": {
+                    "name": "Producto",
+                    "isArray": false,
+                    "type": {
+                        "model": "Producto"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": [
+                            "id"
+                        ],
+                        "targetNames": [
+                            "inventarioProductoId"
+                        ]
+                    }
+                },
+                "Almacen": {
+                    "name": "Almacen",
+                    "isArray": false,
+                    "type": {
+                        "model": "Almacen"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": [
+                            "id"
+                        ],
+                        "targetNames": [
+                            "inventarioAlmacenId"
+                        ]
+                    }
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "inventarioProductoId": {
+                    "name": "inventarioProductoId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "inventarioAlmacenId": {
+                    "name": "inventarioAlmacenId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                }
+            },
+            "syncable": true,
+            "pluralName": "Inventarios",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "allow": "private",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "Ticket": {
+            "name": "Ticket",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "consecutivo": {
+                    "name": "consecutivo",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "Almacen": {
+                    "name": "Almacen",
+                    "isArray": false,
+                    "type": {
+                        "model": "Almacen"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": [
+                            "id"
+                        ],
+                        "targetNames": [
+                            "ticketAlmacenId"
+                        ]
+                    }
+                },
+                "Usuario": {
+                    "name": "Usuario",
+                    "isArray": false,
+                    "type": {
+                        "model": "Usuario"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": [
+                            "id"
+                        ],
+                        "targetNames": [
+                            "ticketUsuarioId"
+                        ]
+                    }
+                },
+                "estado": {
+                    "name": "estado",
+                    "isArray": false,
+                    "type": {
+                        "enum": "EstadoTicket"
+                    },
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "ticketAlmacenId": {
+                    "name": "ticketAlmacenId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "ticketUsuarioId": {
+                    "name": "ticketUsuarioId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                }
+            },
+            "syncable": true,
+            "pluralName": "Tickets",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "allow": "private",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
         }
     },
     "enums": {
+        "EstadoTicket": {
+            "name": "EstadoTicket",
+            "values": [
+                "PENDIENTE",
+                "CANCELADO"
+            ]
+        },
         "TipoTerceros": {
             "name": "TipoTerceros",
             "values": [
@@ -1248,6 +1586,84 @@ export const schema = {
                 },
                 "ref2_comercial_observacion": {
                     "name": "ref2_comercial_observacion",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                }
+            }
+        },
+        "TaxCode": {
+            "name": "TaxCode",
+            "fields": {
+                "email": {
+                    "name": "email",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "phone": {
+                    "name": "phone",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                }
+            }
+        },
+        "Direccion": {
+            "name": "Direccion",
+            "fields": {
+                "address": {
+                    "name": "address",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "city": {
+                    "name": "city",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "department": {
+                    "name": "department",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "country": {
+                    "name": "country",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                }
+            }
+        },
+        "Contact": {
+            "name": "Contact",
+            "fields": {
+                "name": {
+                    "name": "name",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "email": {
+                    "name": "email",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "phone": {
+                    "name": "phone",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
@@ -1560,5 +1976,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.4.4",
-    "version": "087a3498b4079bb6d872150253ff80fe"
+    "version": "4800eb2e9ca95c361116004e50155d36"
 };

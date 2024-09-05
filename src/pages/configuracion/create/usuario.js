@@ -1,27 +1,36 @@
 import { Container } from '@mui/material';
+import { useConfirm } from 'material-ui-confirm';
+import { useRouter } from 'next/router';
+import { useSnackbar } from 'notistack';
 import React, { useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import UsuarioFormCreate from '../../../components/usuarios/UsuarioFormCreate';
-import LayoutApp from '../../../layout/LayoutApp';
 import UsuariosHelpers from '../../../helpers/usuariosHelpers';
-import { useSnackbar } from 'notistack';
-import { useConfirm } from 'material-ui-confirm';
-import { useSelector } from "react-redux";
-import { useRouter } from 'next/router';
+import LayoutApp from '../../../layout/LayoutApp';
 
 
 export default function CreateUsuario() {
 
-  const methods = useForm();
+
   const { enqueueSnackbar } = useSnackbar();
-  const { handleSubmit } = methods;
+
   const confirm = useConfirm();
   const router = useRouter();
+  const { query: { sub, username } } = router
 
 
 
-  const helpersUsuario = useMemo(() => new UsuariosHelpers(confirm, enqueueSnackbar, router),[confirm, enqueueSnackbar, router]);
+  const helpersUsuario = useMemo(() => new UsuariosHelpers(confirm, enqueueSnackbar, router), [confirm, enqueueSnackbar, router]);
 
+
+
+  const methods = useForm({
+    defaultValues: {
+      sub: sub,
+      username: username
+    }
+  });
+  const { handleSubmit } = methods;
 
 
   const onError = (errors, e) => {

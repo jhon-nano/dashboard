@@ -1,7 +1,7 @@
 import { useAuthenticator } from "@aws-amplify/ui-react";
 import MaterialTable, { MTableToolbar } from "@material-table/core";
 import { AssignmentTwoTone } from "@mui/icons-material";
-import { Avatar, CardHeader, Icon, useTheme } from '@mui/material';
+import { Avatar, CardHeader, Icon, MenuItem, Select, useTheme } from '@mui/material';
 import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
 import React, { useMemo, useState } from "react";
@@ -21,23 +21,37 @@ export default function AlmacenesTable({ data }) {
   const router = useRouter();
 
   const {
-    material_table
+    material_table,
+    organizationTypeArray,
+    municipalities,
+    departments
   } = useSelector((state) => state.app);
 
   const userStore = useSelector((state) => state.usuario);
 
 
 
-  const helpersAlmacen = useMemo(() => new AlmacenesHelpers(useSnackbar()), []);
+  const helpersAlmacen = useMemo(() => new AlmacenesHelpers(enqueueSnackbar), [enqueueSnackbar]);
 
   const { user: userCognito } = useAuthenticator((context) => [context.user]);
   const utilsAuth = useMemo(() => new AuthUtils(enqueueSnackbar, userStore, userCognito), [enqueueSnackbar, userStore, userCognito]);
   const moduloAlmacen = useMemo(() => new TypesAlmacenes(router), [router]);
-  
-  
+
+
   const [almacen, setAlmacen] = useState();
+  const [selectedDepartment, setSelectedDepartment] = useState(null);
 
+  const departmentLookup = departments.reduce((acc, item) => {
+    acc[item.code] = item.value;
+    return acc;
+  }, {});
 
+  const municipalityLookup = municipalities
+    .filter(municipality => municipality.departmentCode === String(selectedDepartment))
+    .reduce((acc, item) => {
+      acc[item.code] = item.value;
+      return acc;
+    }, {});
 
 
   return (
@@ -63,12 +77,39 @@ export default function AlmacenesTable({ data }) {
         data={data}
         columns={[
           { title: "ID", field: "id", hidden: true },
-          { title: "CODIGO", field: "codigo" },
-          { title: "NIT", field: "nit" },
-          { title: "NOMBRE", field: "nombreAlmacen" },
+          {
+            title: "TIPO ORGANIZACION", field: "organizationType", lookup: organizationTypeArray.reduce((acc, item) => {
+              acc[item.code] = item.value;
+              return acc;
+            }, {})
+          },
+          { title: "NIT", field: "identificationNumber" },
+          { title: "DV", field: "dv" },
+          { title: "NOMBRE", field: "name" },
+          { title: "NOMBRE COMERCIAL", field: "tradeName" },
           { title: "DIRECCION", field: "direccion" },
           { title: "TELEFONO", field: "telefono" },
-          { title: "CIUDAD", field: "ciudad" },
+          {
+            title: "DEPARTAMENTO", field: "departments", lookup: departmentLookup,
+            editComponent: props => (
+              <Select
+                value={props.value}
+                onChange={e => {
+                  const selectedCode = parseInt(e.target.value);
+                  setSelectedDepartment(selectedCode);
+                  props.onChange(selectedCode);
+                }}
+              >
+                {Object.keys(departmentLookup).map(key => (
+                  <MenuItem  key={key} value={key}>
+                    {departmentLookup[key]}
+                  </MenuItem >
+                ))}
+              </Select>
+            )
+
+          },
+          { title: "MUNICIPIO", field: "ciudad", lookup: municipalityLookup },
           {
             title: "ESTADO",
             field: "estado",
