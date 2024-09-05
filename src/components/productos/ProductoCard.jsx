@@ -29,7 +29,7 @@ import { useSelector } from 'react-redux';
 import AuthUtils from "../../utils/authUtils";
 
 
-export default function ProductosCard({ producto, linea, categoria, marca, inventario, inventarios, childrenMenuItem }) {
+export default function ProductosCard({ producto, setOpenInventarios, categoria, marca, inventario, inventarios, childrenMenuItem }) {
 
   const theme = useTheme();
 

@@ -3,24 +3,21 @@ import {
   DialogContent,
   Stack
 } from "@mui/material";
-import { Storage } from 'aws-amplify';
 import moment from "moment";
 import { useRouter } from "next/router";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import MaterialTable from "@material-table/core";
-import { Content, Footer, Fullscreen, getContentBasedScheme, Root } from "@mui-treasury/layout";
+import { Content, Fullscreen, getContentBasedScheme, Root } from "@mui-treasury/layout";
 import { useConfirm } from "material-ui-confirm";
 import { useSnackbar } from "notistack";
 import { useDispatch } from "react-redux";
 import Modal from "../../../components/otros/Modal";
 import ProductosCard from "../../../components/productos/ProductoCard";
-import { ProductosImageList } from "../../../components/productos/ProductosImageList";
 import ProductoViewEmcabezado from "../../../components/productos/view/ProductoViewEmcabezado";
-import ProductoViewFooter from "../../../components/productos/view/ProductoViewFooter";
 import { useModelInventarioByProductoId, useModelProductoById } from "../../../hooks/models/useModelProducto";
 import LayoutApp from "../../../layout/LayoutApp";
-import InventariosHelpers from './../../../helpers/inventariosHelpers'
+import InventariosHelpers from './../../../helpers/inventariosHelpers';
 
 moment.locale("es");
 
@@ -55,7 +52,7 @@ export default function ProductoID(props) {
     error: errorProducto,
   } = useModelProductoById(router.query.id);
 
-const { inventarioProducto } = useModelInventarioByProductoId(producto?.id)
+  const { inventarioProducto } = useModelInventarioByProductoId(producto?.id)
 
   const { material_table } = appStore
   const { almacenesAutorizados } = userStore
@@ -69,35 +66,6 @@ const { inventarioProducto } = useModelInventarioByProductoId(producto?.id)
 
 
 
-  const activeStepComponent = useCallback(() => {
-    switch (value) {
-      case 0:
-        return (
-          <ProductosCard
-
-            producto={producto}
-            linea={linea}
-            categoria={categoria}
-            marca={marca}
-            inventarios={inventarioProducto}
-          />
-        );
-      case 1:
-        return (
-          <ProductosImageList producto={producto} documentos={documentos} onRemoveDocumento={onRemoveDocumento} detalle={'EL PRODUCTO'} />
-        );
-
-      default:
-        break;
-    }
-  }, [
-    value,
-    producto,
-    linea,
-    categoria,
-    marca,
-    inventarioProducto
-  ]);
 
 
 
@@ -109,7 +77,7 @@ const { inventarioProducto } = useModelInventarioByProductoId(producto?.id)
             ...scheme,
 
           }}>
-            <ProductoViewEmcabezado producto={producto} value={value} setValue={setValue}  setOpenInventarios={setOpenInventarios} />
+            <ProductoViewEmcabezado producto={producto} value={value} setValue={setValue} setOpenInventarios={setOpenInventarios} />
 
             <Stack sx={{
               flex: '1 1 auto',
@@ -120,15 +88,20 @@ const { inventarioProducto } = useModelInventarioByProductoId(producto?.id)
               <Content  >
 
 
-                {activeStepComponent()}
+                <ProductosCard
+
+                  producto={producto}
+                  linea={linea}
+                  categoria={categoria}
+                  marca={marca}
+                  inventarios={inventarioProducto}
+                  setOpenInventarios={setOpenInventarios}
+                />
 
 
               </Content>
             </Stack>
 
-            <Footer>
-              <ProductoViewFooter inventarios={inventarioProducto} setOpenInventarios={setOpenInventarios} />
-            </Footer>
 
           </Root>
         </Fullscreen>
@@ -158,9 +131,9 @@ const { inventarioProducto } = useModelInventarioByProductoId(producto?.id)
                   }, {}),
                 },
 
-                { title: "Inventario", field: "inventario", hidden:true,type: 'numeric', initialEditValue: 0, editable: 'never' },
-                { title: "Separado", field: "separado", hidden:true, type: 'numeric', initialEditValue: 0, editable: 'never' },
-                { title: "Costo", field: "costo", type: 'numeric',hidden:true, initialEditValue: 0, editable: 'never', hidden: true },
+                { title: "Inventario", field: "inventario", hidden: true, type: 'numeric', initialEditValue: 0, editable: 'never' },
+                { title: "Separado", field: "separado", hidden: true, type: 'numeric', initialEditValue: 0, editable: 'never' },
+                { title: "Costo", field: "costo", type: 'numeric', hidden: true, initialEditValue: 0, editable: 'never', hidden: true },
                 { title: "Precio", field: "precio", type: 'numeric', initialEditValue: 0 },
 
               ]}
@@ -173,7 +146,7 @@ const { inventarioProducto } = useModelInventarioByProductoId(producto?.id)
               style={material_table.style}
               editable={{
                 onRowAdd: (newData) => helperInventario.onRowAddTableInventario(newData, producto.id),
-                onRowUpdate: (newData,oldData) => helperInventario.onRowUpdateTableInventario(newData, oldData),
+                onRowUpdate: (newData, oldData) => helperInventario.onRowUpdateTableInventario(newData, oldData),
               }}
             />
           </DialogContent>
