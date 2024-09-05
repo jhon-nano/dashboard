@@ -160,7 +160,7 @@ function LayoutApp({ pathnames, header, children, open, message, open_cloud }) {
                               <IconButton
                                 onClick={() => setOpen(!open)}
                                 edge="end"
-                                sx={{ width: 45, height: 45 }}
+                                sx={{ width: 42, height: 42 }}
                               >
                                 {open ? (
                                   <KeyboardArrowLeft />
@@ -168,7 +168,7 @@ function LayoutApp({ pathnames, header, children, open, message, open_cloud }) {
                                   <MenuIcon
                                     color='action'
                                     sx={{
-                                      fontSize: 35,
+                                      fontSize: 30,
                                       margin: 1,
                                     }}
                                   />
@@ -179,15 +179,7 @@ function LayoutApp({ pathnames, header, children, open, message, open_cloud }) {
 
 
                           <CardHeader
-                            avatar={
-                              <Image
-                                alt="logo"
-                                src="/img/logo.png"
-                                width={breakpoints_sm ? 60 : 50}
 
-                              />
-
-                            }
 
                             subheader={breakpoints_sm && pathnames.length > 0 ? modulo?.nombreModulo : <b>
                               {usuario?.nombreUsuario}
@@ -195,12 +187,14 @@ function LayoutApp({ pathnames, header, children, open, message, open_cloud }) {
                             title={breakpoints_sm && pathnames.length > 0 ? 'LINEA' : 'Bienvenid@'}
                             titleTypographyProps={{
                               color: 'white',
-                              fontSize: 'Bebas Kai'
+                              fontSize: 16,
+                              
                             }}
                             subheaderTypographyProps={{
                               variant: 'h6',
                               textTransform: 'uppercase',
-                              color: 'whitesmoke'
+                              color: 'whitesmoke',
+                              fontSize: 12,
                             }}
                           />
 

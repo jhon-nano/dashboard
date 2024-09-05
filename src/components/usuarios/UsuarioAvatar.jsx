@@ -49,8 +49,8 @@ export default function UsuarioAvatar() {
 
           <IconButton color="error" onClick={(e) => helpersAuth.handleExitToApp(e)}
             sx={{
-              width: 43,
-              height: 43,
+              width: 42,
+              height: 42,
               border: 3,
               borderColor: !status ? theme.palette.info.dark : theme.palette.error.dark,
               background: !status ? theme.palette.info.light : theme.palette.error.light,

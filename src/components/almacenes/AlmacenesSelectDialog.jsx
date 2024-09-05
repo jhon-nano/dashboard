@@ -86,8 +86,8 @@ export function AlmacenesSelectDialog({ children, codigo }) {
               <BusinessTwoTone color='secondary' fontSize="large" />
             </Avatar>
           }
-          title="Seleccione un Almacen"
-          subheader={`${almacenesAutorizados.length} Almacenes Autorizados.`}
+          title="Seleccione"
+          subheader={`un Almacen`}
           titleTypographyProps={{ color: 'white', variant: 'button', fontSize: 18 }}
           subheaderTypographyProps={{ color: 'white', fontSize: 16, variant: 'caption' }}
           sx={{ background: theme.palette.secondary.main }}
@@ -110,7 +110,7 @@ export function AlmacenesSelectDialog({ children, codigo }) {
               aria-labelledby="nested-list-subheader"
             >
               {almacenesAutorizados
-                .sort((a, b) => a.codigo.localeCompare(b.codigo))
+                .sort((a, b) => a.tradeName.localeCompare(b.tradeName))
                 .map((e) => (
                   <ListItemButton
                     key={e.id}
@@ -131,14 +131,14 @@ export function AlmacenesSelectDialog({ children, codigo }) {
                     }
                   >
                     <ListItemAvatar>
-                      <Avatar variant="rounded" sx={{ width: 56, height: 56 }}>
+                      <Avatar variant="rounded" sx={{ width: 42, height: 42 }}>
                         <BusinessTwoTone color={e.estado === 'INACTIVO' ? 'error' : 'success'} fontSize="large" />
                       </Avatar>
                     </ListItemAvatar>
                     <ListItemText
-                      primary={e.codigo}
+                 
                       secondary={e.tradeName}
-                      primaryTypographyProps={{ variant: 'button', marginLeft: 1, fontSize: 18 }}
+                      primaryTypographyProps={{ variant: 'button', marginLeft: 1, fontSize: 16 }}
                       secondaryTypographyProps={{ variant: 'caption', marginLeft: 1, fontSize: 16 }}
                       sx={{ width: 240 }}
                     />
