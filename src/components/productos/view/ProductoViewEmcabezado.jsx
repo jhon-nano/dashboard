@@ -111,13 +111,13 @@ export default function ProductoViewEmcabezado({ producto, value, setValue, onCh
               background: "white",
               mr: 1,
               mt: 1,
-              height: 50,
-              width: 50
+              height: 42,
+              width: 42
             }}
             onClick={handleClick}
             color="secondary"
           >
-            <MoreVertTwoTone sx={{ fontSize: 24 }} color="inherit" />
+            <MoreVertTwoTone sx={{ fontSize: 34 }} color="inherit" />
           </IconButton>
         </Tooltip>
         <Menu

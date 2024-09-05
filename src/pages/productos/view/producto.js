@@ -19,7 +19,7 @@ import { ProductosImageList } from "../../../components/productos/ProductosImage
 import ProductoViewEmcabezado from "../../../components/productos/view/ProductoViewEmcabezado";
 import ProductoViewFooter from "../../../components/productos/view/ProductoViewFooter";
 import { useModelInventarioByProductoId, useModelProductoById } from "../../../hooks/models/useModelProducto";
-import LayoutCaja from "../../../layout/LayoutCaja";
+import LayoutApp from "../../../layout/LayoutApp";
 import InventariosHelpers from './../../../helpers/inventariosHelpers'
 
 moment.locale("es");
@@ -187,5 +187,5 @@ const { inventarioProducto } = useModelInventarioByProductoId(producto?.id)
   );
 }
 ProductoID.getLayout = function getLayout(page) {
-  return <LayoutCaja {...page.props} >{page}</LayoutCaja>;
+  return <LayoutApp {...page.props} >{page}</LayoutApp>;
 };

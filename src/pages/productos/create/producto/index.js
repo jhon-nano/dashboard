@@ -17,6 +17,7 @@ import { useModel } from "../../../../hooks/useModel";
 import LayoutCaja from "../../../../layout/LayoutCaja";
 import { Categoria, Producto } from "../../../../models";
 import { FormCreateProducto } from "../../../../components/productos/create/FormCreateProducto";
+import LayoutApp from "../../../../layout/LayoutApp";
 
 const scheme = getContentBasedScheme();
 
@@ -108,5 +109,5 @@ export default function CreateProducto({ userStore }) {
 
 
 CreateProducto.getLayout = function getLayout(page) {
-  return <LayoutCaja {...page.props}>{page}</LayoutCaja>;
+  return <LayoutApp {...page.props}>{page}</LayoutApp>;
 };

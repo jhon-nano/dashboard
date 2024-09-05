@@ -139,6 +139,6 @@ export default function UpdateProducto({ userStore }) {
 }
 
 UpdateProducto.getLayout = function getLayout(page) {
-  return <LayoutCaja {...page.props}>{page}</LayoutCaja>;
+  return <LayoutApp {...page.props}>{page}</LayoutApp>;
 };
 

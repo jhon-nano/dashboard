@@ -120,67 +120,8 @@ export default function FooterApp({ pathnames, open_cloud }) {
 
 
 
-            <Breadcrumbs aria-label="breadcrumb" sx={{ minWidth: 290, color: 'white' }}  >
-                <Chip
-
-                    component="a"
-
-                    variant="outlined"
-                    sx={{ borderRadius: 2, color: 'white' }}
-
-                    size="small"
-                    icon={
-                        <Icon color="inherit">
-                            {"home"}
-                        </Icon>
-                    }
-                    onClick={() => {
-                        router.push("/");
-                    }}
-                />
-
-                {
-                    pathnames?.map((name, index) => {
-                        const isLast = index === pathnames.length - 1;
-
-                        const modulo = usuario?.modulos_new.find(
-                            (modulo) => modulo?.path == "/" + name
-                        );
-
-                        return (
-                            <Grow
-                                key={name}
-                                in={true}
-                                style={{ transformOrigin: "0 0 0" }}
-                                {...(true ? { timeout: 2500 * index } : {})}
-                            >
-                                <Chip
-                                    variant={index > 0 || isLast ? "filled" : "outlined"}
-                                    label={
-                                        <b>
-                                            {modulo
-                                                ? modulo.nombreModulo.toUpperCase()
-                                                : name.toUpperCase()}
-                                        </b>
-                                    }
-                                    disabled={index > 0 || isLast}
-                                    sx={{ borderRadius: 2, color: 'white' }}
-
-                                    size="small"
-                                    icon={
-                                        <Icon color="inherit">
-                                            {modulo ? modulo?.icon : "turn_right"}
-                                        </Icon>
-                                    }
-                                    onClick={() => {
-                                        router.push("/" + name);
-                                    }}
-                                />
-                            </Grow>
-                        );
-                    })}
-            </Breadcrumbs>
-            <Box flexGrow={1} />
+    
+          
 
 
             <Box flexGrow={1} />

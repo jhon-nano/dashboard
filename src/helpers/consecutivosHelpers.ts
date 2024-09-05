@@ -8,6 +8,7 @@ export default class ConsecutivosHelpers {
 
 
 
+
   private notificacion: any;
   private serviceConsecutivo: any;
   private typesModulos: any;
@@ -30,18 +31,8 @@ export default class ConsecutivosHelpers {
 
             console.log(newData)
 
-            //console.log(newData)
-              const almacenData = new Almacen({
-                tradeName: almacen.tradeName,
-                ciudad: almacen.ciudad,
-                codigo: almacen.codigo,
-                direccion: almacen.direccion,
-                estado: almacen.estado,
-                nit: almacen.nit,
-                telefono: almacen.telefono 
-              })
-            
-              //console.log(almacenData)
+   
+              console.log(almacen)
 
               const modulo = await this.typesModulos.getModulo(newData.ModuloNew.path);
             
@@ -59,7 +50,7 @@ export default class ConsecutivosHelpers {
                 consecutivo:newData.consecutivo,
                 codigo: newData.codigo,
                 ModuloNew: moduloData,
-                Almacen: almacenData,
+                Almacen: almacen,
                 consecutivoAlmacenId: almacen.id
               });
      
