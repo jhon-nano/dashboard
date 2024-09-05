@@ -30,17 +30,15 @@ export default function ProductoViewFooter({ inventarios, setOpenInventarios }) 
                     <TableHead>
                         <TableRow>
                             <TableCell>Almacén</TableCell>
-                            <TableCell>Inventario</TableCell>
-                            <TableCell>Separado</TableCell>
+                 
                             <TableCell>Precio</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {inventarios.map((inv, i) =>
                             <TableRow key={inv.id}>
-                                <TableCell>{inv.Almacen?.nombreAlmacen}</TableCell>
-                                <TableCell>{inv.inventario}</TableCell>
-                                <TableCell>{inv.separado}</TableCell>
+                                <TableCell>{inv.Almacen?.tradeName}</TableCell>
+                  
                                 <TableCell>{inv.precio.toLocaleString()}</TableCell>
                             </TableRow>
                         )}

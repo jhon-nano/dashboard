@@ -103,7 +103,7 @@ export default function PedidoPOS({ data, items }) {
                                 textAlign: 'center'
                             }}>
 
-                                <Text style={{ ...styles.tableCell, padding: 2, marginBottom: 0, marginTop: 0, fontSize: 11, fontFamily: 'Courier-Bold' }}>{data.Almacen.nombreAlmacen.toUpperCase()}</Text>
+                                <Text style={{ ...styles.tableCell, padding: 2, marginBottom: 0, marginTop: 0, fontSize: 11, fontFamily: 'Courier-Bold' }}>{data.Almacen.tradeName.toUpperCase()}</Text>
                                 <Text style={{ ...styles.tableCell, padding: 2, marginBottom: 0, marginTop: 0, fontSize: 8 }}>{data.Almacen.nit}</Text>
                                 <Text style={{ ...styles.tableCell, padding: 2, marginBottom: 0, marginTop: 0, fontSize: 8 }}>{data.Almacen.direccion}</Text>
                                 <Text style={{ ...styles.tableCell, padding: 2, marginBottom: 0, marginTop: 0, fontSize: 8, borderBottom: 1 }}>{`${data.Almacen.telefono} - ${data.Almacen.ciudad}`}</Text>

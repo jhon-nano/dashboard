@@ -48,7 +48,7 @@ export function AlmacenesSelectDialog({ children, codigo }) {
           setValue('Consecutivo', items[0]);
           setValue('Usuario', usuario);
         } else if (almacen !== undefined) {
-          enqueueSnackbar(`Almacen de ${almacen.nombreAlmacen}, sin Consecutivo. ${codigo}`, {
+          enqueueSnackbar(`Almacen de ${almacen.tradeName}, sin Consecutivo. ${codigo}`, {
             variant: "warning",
           });
           setValue('Almacen', null);
@@ -118,7 +118,7 @@ export function AlmacenesSelectDialog({ children, codigo }) {
                     onClick={() =>
                       confirm({
                         title: "Confirma que desea Seleccionar el ALMACEN?",
-                        description: e.nombreAlmacen,
+                        description: e.tradeName,
                         confirmationText: "CONFIRMAR",
                         confirmationButtonProps: { variant: "contained", color: "info" },
                         cancellationText: "CANCELAR",
@@ -137,7 +137,7 @@ export function AlmacenesSelectDialog({ children, codigo }) {
                     </ListItemAvatar>
                     <ListItemText
                       primary={e.codigo}
-                      secondary={e.nombreAlmacen}
+                      secondary={e.tradeName}
                       primaryTypographyProps={{ variant: 'button', marginLeft: 1, fontSize: 18 }}
                       secondaryTypographyProps={{ variant: 'caption', marginLeft: 1, fontSize: 16 }}
                       sx={{ width: 240 }}

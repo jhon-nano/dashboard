@@ -67,7 +67,7 @@ export default function CheckAlmacenes({
     return (
       <FormControlLabel
         key={e.id}
-        label={e.nombreAlmacen}
+        label={e.tradeName}
         sx={{ width: 210, alignItems: 'center', border: 1, borderTop: i == 0 ? 1 : 0 }}
         control={
           <Checkbox

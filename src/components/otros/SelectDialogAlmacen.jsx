@@ -66,7 +66,7 @@ export function SelectDialogAlmacen({ children, almacen, setAlmacen }) {
                   onClick={() =>
                     confirm({
                       title: "Confirma que desea Seleccionar el ALMACEN?",
-                      description: e.nombreAlmacen,
+                      description: e.tradeName,
                       confirmationText: "CONFIRMAR",
                       confirmationButtonProps: {
                         variant: "contained",
@@ -86,7 +86,7 @@ export function SelectDialogAlmacen({ children, almacen, setAlmacen }) {
                   }
                 >
                   <ListItemText
-                    primary={e.codigo + " - " + e.nombreAlmacen}
+                    primary={e.codigo + " - " + e.tradeName}
                     sx={{ width: 240 }}
                   />
                   <ListItemSecondaryAction>

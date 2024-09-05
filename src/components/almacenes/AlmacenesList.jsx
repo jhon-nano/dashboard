@@ -29,7 +29,7 @@ export default function AlmacenesList() {
                 <ListItem key={e.id} divider sx={{ padding: 0, paddingLeft: 1, margin: 0 }} s>
 
                     <ListItemText
-                        primary={e.nombreAlmacen}
+                        primary={e.tradeName}
                         secondary={e.codigo}
                         secondaryTypographyProps={{ variant: 'caption', fontSize: 10 }}
                         sx={{ borderLeft: 3, padding: 0, paddingLeft: 1, margin: 0 }}

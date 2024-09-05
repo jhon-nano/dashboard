@@ -235,7 +235,7 @@ export default function PedidoPDF({ data, items }) {
                         borderBottom: 1,
                         height:'25%'
                       }}>
-                        {`${data?.Almacen.nombreAlmacen.toUpperCase()}`}
+                        {`${data?.Almacen.tradeName.toUpperCase()}`}
                       </Text>
                       <Text style={{
                         ...styles.tableCell, padding: 2, marginBottom: 0, marginTop: 0,
@@ -530,7 +530,7 @@ export default function PedidoPDF({ data, items }) {
                         style={{ ...styles.data1, marginBottom: 40 }}
                       >{`Cordialmente`}</Text>
 
-                      <Text style={{ ...styles.data, marginBottom: 25, width: 200, borderTop: 1 }}>{data.Almacen.nombreAlmacen}</Text>
+                      <Text style={{ ...styles.data, marginBottom: 25, width: 200, borderTop: 1 }}>{data.Almacen.tradeName}</Text>
                     </View>
                   </View>
                 </View>

@@ -117,10 +117,10 @@ export default class AlmacenService extends BaseService<Almacen>  implements IAl
 
 
 
-    async getAlmacenByNombre(nombreAlmacen: string): Promise<LazyAlmacen[] | null> {
+    async getAlmacenByNombre(tradeName: string): Promise<LazyAlmacen[] | null> {
  
             const almacen = await DataStore.query(Almacen, (p) =>
-            p.and((p) => [p.tradeName.eq(nombreAlmacen)])
+            p.and((p) => [p.tradeName.eq(tradeName)])
           );
             
           if (!almacen) {

@@ -130,7 +130,7 @@ export default function PedidosPOS({ data, almacen, tipo_informe }) {
                                 textAlign: 'center'
                             }}>
 
-                                <Text style={{ ...styles.tableCell, padding: 2, marginBottom: 0, marginTop: 0, fontSize: 11, fontFamily: 'Courier-Bold' }}>{almacen?.nombreAlmacen?.toUpperCase()}</Text>
+                                <Text style={{ ...styles.tableCell, padding: 2, marginBottom: 0, marginTop: 0, fontSize: 11, fontFamily: 'Courier-Bold' }}>{almacen?.tradeName?.toUpperCase()}</Text>
                                 <Text style={{ ...styles.tableCell, padding: 2, marginBottom: 0, marginTop: 0, fontSize: 8 }}>{almacen?.nit}</Text>
                                 <Text style={{ ...styles.tableCell, padding: 2, marginBottom: 0, marginTop: 0, fontSize: 8 }}>{almacen?.direccion}</Text>
                                 <Text style={{ ...styles.tableCell, padding: 2, marginBottom: 0, marginTop: 0, fontSize: 8, borderBottom: 1 }}>{`${almacen?.telefono} - ${almacen?.ciudad}`}</Text>

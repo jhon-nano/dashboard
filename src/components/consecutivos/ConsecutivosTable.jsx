@@ -38,7 +38,7 @@ export default function ConsecutivosTable({ almacen, data }) {
   return (
     <>
       <MaterialTable
-        title={<TitleTable icon={modulo.icon} nombreModulo={modulo.nombreModulo} detalle={'de ' + almacen?.nombreAlmacen} />}
+        title={<TitleTable icon={modulo.icon} nombreModulo={modulo.nombreModulo} detalle={'de ' + almacen?.tradeName} />}
         data={data}
         components={{
           Toolbar: (props) => (

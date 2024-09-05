@@ -216,7 +216,7 @@ console.log(data)
       id: data.id,
       codigo: data.codigo || null,
       nit: data.nit || null,
-      nombreAlmacen: data.nombreAlmacen,
+      tradeName: data.tradeName,
       direccion: data.direccion || null,
       ciudad: data.ciudad || null,
       telefono: data.telefono || null,

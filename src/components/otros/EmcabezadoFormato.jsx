@@ -70,7 +70,7 @@ export default function EncabezadoFormatos({
             <Typography variant="button" gutterBottom noWrap>
               {almacen ? (
                 <>
-                  {almacen?.nombreAlmacen}
+                  {almacen?.tradeName}
                   <br />
                 </>
               ) : null}

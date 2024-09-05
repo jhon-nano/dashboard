@@ -59,7 +59,7 @@ export default function UsuarioListAlmacenesModuloAuth(props) {
               <Icon>{"business"}</Icon>
             </ListItemIcon>
             <ListItemText
-              primary={almacen.nombreAlmacen}
+              primary={almacen.tradeName}
             // secondary={almacen.id}
             />
 

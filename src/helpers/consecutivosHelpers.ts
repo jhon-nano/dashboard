@@ -32,7 +32,7 @@ export default class ConsecutivosHelpers {
 
             //console.log(newData)
               const almacenData = new Almacen({
-                nombreAlmacen: almacen.nombreAlmacen,
+                tradeName: almacen.tradeName,
                 ciudad: almacen.ciudad,
                 codigo: almacen.codigo,
                 direccion: almacen.direccion,

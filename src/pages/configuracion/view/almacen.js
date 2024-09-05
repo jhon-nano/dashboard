@@ -132,7 +132,7 @@ export default function AlmacenID({ value }) {
                         fontWeight: "bold",
                       }}
                     >
-                      {almacen?.nombreAlmacen}
+                      {almacen?.tradeName}
                     </Typography>
                   </Stack>
 
