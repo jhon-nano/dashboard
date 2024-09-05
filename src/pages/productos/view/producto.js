@@ -145,7 +145,7 @@ const { inventarioProducto } = useModelInventarioByProductoId(producto?.id)
 
           <DialogContent >
             <MaterialTable
-              title={'Almacenes Autorizados'}
+              title={''}
               data={inventarioProducto}
 
               columns={[

@@ -58,8 +58,7 @@ export default class FormatUtils {
       !data.linea ||
       !data.categoria ||
       !data.marca ||
-      !data.nombreProducto ||
-      !data.iva
+      !data.nombreProducto 
       // Agrega aquí otros campos requeridos que desees validar
     ) {
       throw new Error("Faltan campos requeridos en los datos del producto.");
