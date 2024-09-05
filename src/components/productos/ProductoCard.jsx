@@ -77,64 +77,7 @@ export default function ProductosCard({ producto, setOpenInventarios, categoria,
           />
           <Grid container spacing={2} padding={1} >
 
-            <Grid item xs={12} sm={8} md={8} lg={8} xl={8} >
-
-              <Grid container spacing={2}
-                direction="row"
-                justifyContent="space-evenly"
-                alignItems="stretch"
-
-              >
-                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-
-
-                  <TextField
-
-                    fullWidth
-                    focused
-                    variant="outlined"
-                    value={producto?.Linea?.nombreLinea}
-                    label={'LINEA'}
-                    size="small"
-                    sx={{ fontSize: '8px' }}
-                  />
-
-                </Grid>
-                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-
-
-                  <TextField
-
-                    fullWidth
-                    focused
-                    variant="outlined"
-                    value={producto?.Marca?.nombreMarca}
-                    label={'MARCA'}
-                    size="small"
-                    sx={{ fontSize: '8px' }}
-                  />
-
-
-                </Grid>
-                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-
-
-                  <TextField
-
-                    fullWidth
-                    focused
-                    variant="outlined"
-                    value={producto?.Categoria?.nombreCategoria}
-                    label={'CATEGORIA'}
-                    size="small"
-                    sx={{ fontSize: '8px' }}
-                  />
-
-
-                </Grid>
-
-              </Grid>
-            </Grid>
+       
 
 
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
@@ -155,7 +98,7 @@ export default function ProductosCard({ producto, setOpenInventarios, categoria,
             <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
             <Box sx={{ border: 1, borderColor: theme.palette.grey[400] }}>
             <CardHeader
-                subheader={"Inventarios"}
+                subheader={"PRECIOS"}
                 subheaderTypographyProps={{
                     color: 'primary',
                     variant: 'button'
@@ -210,8 +153,8 @@ export default function ProductosCard({ producto, setOpenInventarios, categoria,
                         </IconButton>
                     }
                 >
-                    <AlertTitle>Producto sin Inventario</AlertTitle>
-                    Este producto no presenta Inventarios Presiona + para Agregar.
+                    <AlertTitle>Producto sin Precios en Almacenes</AlertTitle>
+                    Este producto no presenta Precios Presiona + para Agregar.
                 </Alert>}
         </Box>
             </Grid>

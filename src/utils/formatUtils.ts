@@ -55,9 +55,6 @@ export default class FormatUtils {
   formatProductoData(data: any) {  // campos minimos requeridos para validar
     //
     if (
-      !data.linea ||
-      !data.categoria ||
-      !data.marca ||
       !data.nombreProducto 
       // Agrega aquí otros campos requeridos que desees validar
     ) {
@@ -71,9 +68,7 @@ export default class FormatUtils {
       presentacion: data.presentacion && this.removeSpacesUpperCase(data.presentacion),
       datos_producto: data.datos_producto,
       iva: this.formatNumber(data.iva),
-      productoLineaId: data.linea.id,
-      productoCategoriaId: data.categoria.id,
-      productoMarcaId: data.marca.id,
+
       estado: Estado.ACTIVO,
     });
   };
@@ -84,9 +79,6 @@ export default class FormatUtils {
 console.log(data)
 
     if (
-      !data.linea ||
-      !data.categoria ||
-      !data.marca ||
       !data.nombreProducto 
       // Agrega aquí otros campos requeridos que desees validar
     ) {
@@ -100,9 +92,7 @@ console.log(data)
       presentacion: data.presentacion && this.removeSpacesUpperCase(data.presentacion),
       datos_producto: data.datos_producto,
       iva: this.formatNumber(data.iva),
-      productoLineaId: data.linea.id,
-      productoCategoriaId: data.categoria.id,
-      productoMarcaId: data.marca.id,
+
       estado: Estado.ACTIVO,
     });
   };
