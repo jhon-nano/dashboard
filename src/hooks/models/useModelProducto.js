@@ -150,6 +150,58 @@ export function useModelInventarioByProductoId(inventarioProductoId) {
 
   return { loading, inventarioProducto, error };
 };
+
+export function useModelInventarioByAlmacenId(inventarioAlmacenId) {
+
+
+
+
+  const [inventarioAlmacen, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState();
+
+  useEffect(() => {
+
+    const subscription = DataStore.observeQuery(
+      Inventario,
+      (p) =>
+        p.and((p) => [
+          p.inventarioAlmacenId.eq(inventarioAlmacenId)
+        ]),
+      {
+        sort: (s) => s.createdAt(SortDirection.ASCENDING),
+      }
+    ).subscribe(async (snapshot) => {
+      const { items } = snapshot;
+
+
+
+      const data = await Promise.all(
+        items.map(async (item) => {
+          const producto = await item.Producto;
+          return { ...item, Producto: producto };
+        })
+      );
+
+      setData(data);
+      setLoading(false);
+
+
+    });
+
+    return () => {
+      subscription.unsubscribe();
+      setData([]);
+      setLoading(false);
+    };
+
+
+  }, [inventarioAlmacenId])
+
+
+  return { loading, inventarioAlmacen, error };
+};
+
 export function useModelProductos() {
 
   const dispatch = useDispatch();

@@ -2,6 +2,12 @@
 import { initSchema } from '@aws-amplify/datastore';
 import { schema } from './schema';
 
+const FormasPago = {
+  "ANTICIPO": "ANTICIPO",
+  "ABONO": "ABONO",
+  "CANCELACION": "CANCELACION"
+};
+
 const EstadoTicket = {
   "PENDIENTE": "PENDIENTE",
   "CANCELADO": "CANCELADO"
@@ -84,7 +90,7 @@ const Estado = {
   "INACTIVO": "INACTIVO"
 };
 
-const { ModuloUserAlmacenes, ModuloUserPermiso, Consecutivo, Almacen, Usuario, Producto, Marca, Categoria, Linea, Inventario, Ticket, DatosSolicitud, TaxCode, Direccion, Contact, ProductoProveedor, Auditoria, ModuloNew, CategoriaAtributoNew, AuditoriaInventario, CotizacionItem, UbicacionInventario, CajaRegistradora } = initSchema(schema);
+const { ModuloUserAlmacenes, ModuloUserPermiso, Consecutivo, Almacen, Usuario, Producto, Marca, Categoria, Linea, Inventario, Ticket, TicketItem, DatosSolicitud, TaxCode, Direccion, Contact, ProductoProveedor, Auditoria, ModuloNew, CategoriaAtributoNew, AuditoriaInventario, CotizacionItem, UbicacionInventario, CajaRegistradora } = initSchema(schema);
 
 export {
   ModuloUserAlmacenes,
@@ -98,6 +104,8 @@ export {
   Linea,
   Inventario,
   Ticket,
+  TicketItem,
+  FormasPago,
   EstadoTicket,
   TipoTerceros,
   TipoPago,

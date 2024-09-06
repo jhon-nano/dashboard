@@ -125,10 +125,33 @@ type Inventario @model @auth(rules: [{allow: private}]) {
 type Ticket @model @auth(rules: [{allow: private}]) {
   id: ID!
   consecutivo: Int!
+  forma_pago: FormasPago!
+  cliente: String
+  telefono: String
+  costo: Int
+  precio_venta: Int!
   Almacen: Almacen! @hasOne
   Usuario: Usuario! @hasOne
   estado:EstadoTicket!
 }
+
+type TicketItem @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  consecutivo: Int!
+  valor: Int!
+  Productos: Producto @hasOne
+  Almacen: Almacen! @hasOne
+  Usuario: Usuario! @hasOne
+  Ticket: Ticket! @hasOne
+}
+
+
+enum FormasPago {
+  ANTICIPO
+  ABONO
+  CANCELACION
+}
+
 
 enum EstadoTicket {
   PENDIENTE

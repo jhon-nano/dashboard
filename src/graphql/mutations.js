@@ -1380,6 +1380,11 @@ export const createTicket = /* GraphQL */ `
     createTicket(input: $input, condition: $condition) {
       id
       consecutivo
+      forma_pago
+      cliente
+      telefono
+      costo
+      precio_venta
       Almacen {
         id
         organizationType
@@ -1436,6 +1441,11 @@ export const updateTicket = /* GraphQL */ `
     updateTicket(input: $input, condition: $condition) {
       id
       consecutivo
+      forma_pago
+      cliente
+      telefono
+      costo
+      precio_venta
       Almacen {
         id
         organizationType
@@ -1492,6 +1502,11 @@ export const deleteTicket = /* GraphQL */ `
     deleteTicket(input: $input, condition: $condition) {
       id
       consecutivo
+      forma_pago
+      cliente
+      telefono
+      costo
+      precio_venta
       Almacen {
         id
         organizationType
@@ -1536,6 +1551,312 @@ export const deleteTicket = /* GraphQL */ `
       _lastChangedAt
       ticketAlmacenId
       ticketUsuarioId
+      __typename
+    }
+  }
+`;
+export const createTicketItem = /* GraphQL */ `
+  mutation CreateTicketItem(
+    $input: CreateTicketItemInput!
+    $condition: ModelTicketItemConditionInput
+  ) {
+    createTicketItem(input: $input, condition: $condition) {
+      id
+      consecutivo
+      valor
+      Productos {
+        id
+        codigo
+        nombreProducto
+        nombreCorto
+        iva
+        venta
+        insumos
+        preparacion
+        barras
+        presentacion
+        descripcion
+        cambio_precio
+        datos_producto
+        imagen
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        productoLineaId
+        productoCategoriaId
+        productoMarcaId
+        __typename
+      }
+      Almacen {
+        id
+        organizationType
+        identificationNumber
+        dv
+        name
+        tradeName
+        direccion
+        ciudad
+        telefono
+        secciones
+        estantes
+        niveles
+        cajas
+        regimeCode
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      Usuario {
+        id
+        username
+        nombreUsuario
+        sub
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      Ticket {
+        id
+        consecutivo
+        forma_pago
+        cliente
+        telefono
+        costo
+        precio_venta
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        ticketAlmacenId
+        ticketUsuarioId
+        __typename
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      ticketItemProductosId
+      ticketItemAlmacenId
+      ticketItemUsuarioId
+      ticketItemTicketId
+      __typename
+    }
+  }
+`;
+export const updateTicketItem = /* GraphQL */ `
+  mutation UpdateTicketItem(
+    $input: UpdateTicketItemInput!
+    $condition: ModelTicketItemConditionInput
+  ) {
+    updateTicketItem(input: $input, condition: $condition) {
+      id
+      consecutivo
+      valor
+      Productos {
+        id
+        codigo
+        nombreProducto
+        nombreCorto
+        iva
+        venta
+        insumos
+        preparacion
+        barras
+        presentacion
+        descripcion
+        cambio_precio
+        datos_producto
+        imagen
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        productoLineaId
+        productoCategoriaId
+        productoMarcaId
+        __typename
+      }
+      Almacen {
+        id
+        organizationType
+        identificationNumber
+        dv
+        name
+        tradeName
+        direccion
+        ciudad
+        telefono
+        secciones
+        estantes
+        niveles
+        cajas
+        regimeCode
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      Usuario {
+        id
+        username
+        nombreUsuario
+        sub
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      Ticket {
+        id
+        consecutivo
+        forma_pago
+        cliente
+        telefono
+        costo
+        precio_venta
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        ticketAlmacenId
+        ticketUsuarioId
+        __typename
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      ticketItemProductosId
+      ticketItemAlmacenId
+      ticketItemUsuarioId
+      ticketItemTicketId
+      __typename
+    }
+  }
+`;
+export const deleteTicketItem = /* GraphQL */ `
+  mutation DeleteTicketItem(
+    $input: DeleteTicketItemInput!
+    $condition: ModelTicketItemConditionInput
+  ) {
+    deleteTicketItem(input: $input, condition: $condition) {
+      id
+      consecutivo
+      valor
+      Productos {
+        id
+        codigo
+        nombreProducto
+        nombreCorto
+        iva
+        venta
+        insumos
+        preparacion
+        barras
+        presentacion
+        descripcion
+        cambio_precio
+        datos_producto
+        imagen
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        productoLineaId
+        productoCategoriaId
+        productoMarcaId
+        __typename
+      }
+      Almacen {
+        id
+        organizationType
+        identificationNumber
+        dv
+        name
+        tradeName
+        direccion
+        ciudad
+        telefono
+        secciones
+        estantes
+        niveles
+        cajas
+        regimeCode
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      Usuario {
+        id
+        username
+        nombreUsuario
+        sub
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      Ticket {
+        id
+        consecutivo
+        forma_pago
+        cliente
+        telefono
+        costo
+        precio_venta
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        ticketAlmacenId
+        ticketUsuarioId
+        __typename
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      ticketItemProductosId
+      ticketItemAlmacenId
+      ticketItemUsuarioId
+      ticketItemTicketId
       __typename
     }
   }

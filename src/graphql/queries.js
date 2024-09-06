@@ -1057,6 +1057,11 @@ export const getTicket = /* GraphQL */ `
     getTicket(id: $id) {
       id
       consecutivo
+      forma_pago
+      cliente
+      telefono
+      costo
+      precio_venta
       Almacen {
         id
         organizationType
@@ -1115,6 +1120,11 @@ export const listTickets = /* GraphQL */ `
       items {
         id
         consecutivo
+        forma_pago
+        cliente
+        telefono
+        costo
+        precio_venta
         estado
         createdAt
         updatedAt
@@ -1147,6 +1157,11 @@ export const syncTickets = /* GraphQL */ `
       items {
         id
         consecutivo
+        forma_pago
+        cliente
+        telefono
+        costo
+        precio_venta
         estado
         createdAt
         updatedAt
@@ -1155,6 +1170,167 @@ export const syncTickets = /* GraphQL */ `
         _lastChangedAt
         ticketAlmacenId
         ticketUsuarioId
+        __typename
+      }
+      nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const getTicketItem = /* GraphQL */ `
+  query GetTicketItem($id: ID!) {
+    getTicketItem(id: $id) {
+      id
+      consecutivo
+      valor
+      Productos {
+        id
+        codigo
+        nombreProducto
+        nombreCorto
+        iva
+        venta
+        insumos
+        preparacion
+        barras
+        presentacion
+        descripcion
+        cambio_precio
+        datos_producto
+        imagen
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        productoLineaId
+        productoCategoriaId
+        productoMarcaId
+        __typename
+      }
+      Almacen {
+        id
+        organizationType
+        identificationNumber
+        dv
+        name
+        tradeName
+        direccion
+        ciudad
+        telefono
+        secciones
+        estantes
+        niveles
+        cajas
+        regimeCode
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      Usuario {
+        id
+        username
+        nombreUsuario
+        sub
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        __typename
+      }
+      Ticket {
+        id
+        consecutivo
+        forma_pago
+        cliente
+        telefono
+        costo
+        precio_venta
+        estado
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        ticketAlmacenId
+        ticketUsuarioId
+        __typename
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      ticketItemProductosId
+      ticketItemAlmacenId
+      ticketItemUsuarioId
+      ticketItemTicketId
+      __typename
+    }
+  }
+`;
+export const listTicketItems = /* GraphQL */ `
+  query ListTicketItems(
+    $filter: ModelTicketItemFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTicketItems(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        consecutivo
+        valor
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        ticketItemProductosId
+        ticketItemAlmacenId
+        ticketItemUsuarioId
+        ticketItemTicketId
+        __typename
+      }
+      nextToken
+      startedAt
+      __typename
+    }
+  }
+`;
+export const syncTicketItems = /* GraphQL */ `
+  query SyncTicketItems(
+    $filter: ModelTicketItemFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncTicketItems(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        consecutivo
+        valor
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        ticketItemProductosId
+        ticketItemAlmacenId
+        ticketItemUsuarioId
+        ticketItemTicketId
         __typename
       }
       nextToken

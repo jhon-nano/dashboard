@@ -2,6 +2,12 @@ import { ModelInit, MutableModel, __modelMeta__, ManagedIdentifier } from "@aws-
 // @ts-ignore
 import { LazyLoading, LazyLoadingDisabled, AsyncItem } from "@aws-amplify/datastore";
 
+export enum FormasPago {
+  ANTICIPO = "ANTICIPO",
+  ABONO = "ABONO",
+  CANCELACION = "CANCELACION"
+}
+
 export enum EstadoTicket {
   PENDIENTE = "PENDIENTE",
   CANCELADO = "CANCELADO"
@@ -759,6 +765,11 @@ type EagerTicket = {
   };
   readonly id: string;
   readonly consecutivo: number;
+  readonly forma_pago: FormasPago | keyof typeof FormasPago;
+  readonly cliente?: string | null;
+  readonly telefono?: string | null;
+  readonly costo?: number | null;
+  readonly precio_venta: number;
   readonly Almacen: Almacen;
   readonly Usuario: Usuario;
   readonly estado: EstadoTicket | keyof typeof EstadoTicket;
@@ -775,6 +786,11 @@ type LazyTicket = {
   };
   readonly id: string;
   readonly consecutivo: number;
+  readonly forma_pago: FormasPago | keyof typeof FormasPago;
+  readonly cliente?: string | null;
+  readonly telefono?: string | null;
+  readonly costo?: number | null;
+  readonly precio_venta: number;
   readonly Almacen: AsyncItem<Almacen>;
   readonly Usuario: AsyncItem<Usuario>;
   readonly estado: EstadoTicket | keyof typeof EstadoTicket;
@@ -788,4 +804,50 @@ export declare type Ticket = LazyLoading extends LazyLoadingDisabled ? EagerTick
 
 export declare const Ticket: (new (init: ModelInit<Ticket>) => Ticket) & {
   copyOf(source: Ticket, mutator: (draft: MutableModel<Ticket>) => MutableModel<Ticket> | void): Ticket;
+}
+
+type EagerTicketItem = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<TicketItem, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly consecutivo: number;
+  readonly valor: number;
+  readonly Productos?: Producto | null;
+  readonly Almacen: Almacen;
+  readonly Usuario: Usuario;
+  readonly Ticket: Ticket;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly ticketItemProductosId?: string | null;
+  readonly ticketItemAlmacenId: string;
+  readonly ticketItemUsuarioId: string;
+  readonly ticketItemTicketId: string;
+}
+
+type LazyTicketItem = {
+  readonly [__modelMeta__]: {
+    identifier: ManagedIdentifier<TicketItem, 'id'>;
+    readOnlyFields: 'createdAt' | 'updatedAt';
+  };
+  readonly id: string;
+  readonly consecutivo: number;
+  readonly valor: number;
+  readonly Productos: AsyncItem<Producto | undefined>;
+  readonly Almacen: AsyncItem<Almacen>;
+  readonly Usuario: AsyncItem<Usuario>;
+  readonly Ticket: AsyncItem<Ticket>;
+  readonly createdAt?: string | null;
+  readonly updatedAt?: string | null;
+  readonly ticketItemProductosId?: string | null;
+  readonly ticketItemAlmacenId: string;
+  readonly ticketItemUsuarioId: string;
+  readonly ticketItemTicketId: string;
+}
+
+export declare type TicketItem = LazyLoading extends LazyLoadingDisabled ? EagerTicketItem : LazyTicketItem
+
+export declare const TicketItem: (new (init: ModelInit<TicketItem>) => TicketItem) & {
+  copyOf(source: TicketItem, mutator: (draft: MutableModel<TicketItem>) => MutableModel<TicketItem> | void): TicketItem;
 }

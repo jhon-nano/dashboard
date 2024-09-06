@@ -1240,6 +1240,43 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "forma_pago": {
+                    "name": "forma_pago",
+                    "isArray": false,
+                    "type": {
+                        "enum": "FormasPago"
+                    },
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "cliente": {
+                    "name": "cliente",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "telefono": {
+                    "name": "telefono",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "costo": {
+                    "name": "costo",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "precio_venta": {
+                    "name": "precio_venta",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "Almacen": {
                     "name": "Almacen",
                     "isArray": false,
@@ -1340,9 +1377,183 @@ export const schema = {
                     }
                 }
             ]
+        },
+        "TicketItem": {
+            "name": "TicketItem",
+            "fields": {
+                "id": {
+                    "name": "id",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "consecutivo": {
+                    "name": "consecutivo",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "valor": {
+                    "name": "valor",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "Productos": {
+                    "name": "Productos",
+                    "isArray": false,
+                    "type": {
+                        "model": "Producto"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": [
+                            "id"
+                        ],
+                        "targetNames": [
+                            "ticketItemProductosId"
+                        ]
+                    }
+                },
+                "Almacen": {
+                    "name": "Almacen",
+                    "isArray": false,
+                    "type": {
+                        "model": "Almacen"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": [
+                            "id"
+                        ],
+                        "targetNames": [
+                            "ticketItemAlmacenId"
+                        ]
+                    }
+                },
+                "Usuario": {
+                    "name": "Usuario",
+                    "isArray": false,
+                    "type": {
+                        "model": "Usuario"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": [
+                            "id"
+                        ],
+                        "targetNames": [
+                            "ticketItemUsuarioId"
+                        ]
+                    }
+                },
+                "Ticket": {
+                    "name": "Ticket",
+                    "isArray": false,
+                    "type": {
+                        "model": "Ticket"
+                    },
+                    "isRequired": true,
+                    "attributes": [],
+                    "association": {
+                        "connectionType": "HAS_ONE",
+                        "associatedWith": [
+                            "id"
+                        ],
+                        "targetNames": [
+                            "ticketItemTicketId"
+                        ]
+                    }
+                },
+                "createdAt": {
+                    "name": "createdAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "updatedAt": {
+                    "name": "updatedAt",
+                    "isArray": false,
+                    "type": "AWSDateTime",
+                    "isRequired": false,
+                    "attributes": [],
+                    "isReadOnly": true
+                },
+                "ticketItemProductosId": {
+                    "name": "ticketItemProductosId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "ticketItemAlmacenId": {
+                    "name": "ticketItemAlmacenId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "ticketItemUsuarioId": {
+                    "name": "ticketItemUsuarioId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "ticketItemTicketId": {
+                    "name": "ticketItemTicketId",
+                    "isArray": false,
+                    "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                }
+            },
+            "syncable": true,
+            "pluralName": "TicketItems",
+            "attributes": [
+                {
+                    "type": "model",
+                    "properties": {}
+                },
+                {
+                    "type": "auth",
+                    "properties": {
+                        "rules": [
+                            {
+                                "allow": "private",
+                                "operations": [
+                                    "create",
+                                    "update",
+                                    "delete",
+                                    "read"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
         }
     },
     "enums": {
+        "FormasPago": {
+            "name": "FormasPago",
+            "values": [
+                "ANTICIPO",
+                "ABONO",
+                "CANCELACION"
+            ]
+        },
         "EstadoTicket": {
             "name": "EstadoTicket",
             "values": [
@@ -1976,5 +2187,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.4.4",
-    "version": "4800eb2e9ca95c361116004e50155d36"
+    "version": "722835cf790537acea44e81bbd94faa6"
 };
