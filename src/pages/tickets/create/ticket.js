@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 // layout for this page
 import MaterialTable from "@material-table/core";
 import { getContentBasedScheme } from "@mui-treasury/layout";
@@ -21,7 +21,10 @@ import AlmacenesSelectDialog from "../../../components/almacenes/AlmacenesSelect
 import FormEmcabezadoCreateTicket from "../../../components/tickets/create/FormEmcabezado";
 import { useModelInventarioByAlmacenId } from "../../../hooks/models/useModelProducto";
 import LayoutApp from "../../../layout/LayoutApp";
-
+import TicketsHelpers from '../../../helpers/ticketsHelpers'
+import { useConfirm } from "material-ui-confirm";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
 
 const scheme = getContentBasedScheme();
 
@@ -39,6 +42,11 @@ ChartJS.register(
 
 function CreateTicket({ utilsAuth }) {
 
+  const confirm = useConfirm();
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
+
 
   const methods = useForm();
   const { handleSubmit, control, setError, setValue, formState: { errors } } = methods;
@@ -48,9 +56,8 @@ function CreateTicket({ utilsAuth }) {
     // keyName: "id", default to "id", you can change the key name
   });
 
+  const helpersTickets = useMemo(() => new TicketsHelpers(dispatch, confirm, enqueueSnackbar, router), [ dispatch, confirm, enqueueSnackbar, router]);
 
-
-  const { enqueueSnackbar } = useSnackbar();
 
 
 
@@ -64,12 +71,6 @@ function CreateTicket({ utilsAuth }) {
 
   const { inventarioAlmacen } = useModelInventarioByAlmacenId(almacen?.id)
 
-
-  var numberFormat = new Intl.NumberFormat("es-CO", {
-    style: "currency",
-    currency: "COP",
-    minimumFractionDigits: 0,
-  });
 
 
   useEffect(() => {
@@ -103,7 +104,7 @@ function CreateTicket({ utilsAuth }) {
 
   return (<FormProvider {...methods}>
     <AlmacenesSelectDialog codigo='TICKET'>
-      <form onSubmit={handleSubmit(null, onError)}>
+      <form onSubmit={handleSubmit(helpersTickets.onSubmitCreateTicket, onError)}>
 
         <FormEmcabezadoCreateTicket />
 

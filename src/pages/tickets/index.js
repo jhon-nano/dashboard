@@ -17,6 +17,8 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import LayoutApp from "../../layout/LayoutApp";
 import TypesTickets from "../../types/typesTickets";
+import { useModelTickets } from "../../hooks/models/useModelTicket";
+import { AssignmentTwoTone } from "@mui/icons-material";
 
 
 
@@ -41,6 +43,7 @@ function Index({utilsAuth}) {
 
   const moduloTickets = useMemo(() => new TypesTickets(router), [router]);
 
+  const { tickets } = useModelTickets()
 
   return (<>
 
@@ -48,32 +51,95 @@ function Index({utilsAuth}) {
     <MaterialTable
       title='TICKETS'
       columns={[
-        { title: 'Name', field: 'name' },
-        { title: 'Surname', field: 'surname' },
-        { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
+        { 
+          title: '#', 
+          field: 'consecutivo',
+          headerStyle: {
+            width: "1%",
+            maxWidth: "1%",
+            align: "center",
+            fontSize: 12
+          },
+          cellStyle: (rowData) => ({
+            width: "1%",
+            maxWidth: "1%",
+            fontSize: 12
+          }),
+        },
+        { 
+          title: 'FP', 
+          field: 'forma_pago', 
+          headerStyle: {
+            width: "10%",
+            maxWidth: "10%",
+            align: "center",
+            fontSize: 12
+          },
+          cellStyle: (rowData) => ({
+            width: "10%",
+            maxWidth: "10%",
+            fontSize: 12
+          }),
+        },
+        { 
+          title: 'CLIENTE', 
+          field: 'cliente',
+          headerStyle: {
+            width: "35%",
+            maxWidth: "35%",
+            align: "center",
+            fontSize: 12
+          },
+          cellStyle: (rowData) => ({
+            width: "35%",
+            maxWidth: "35%",
+            fontSize: 12
+          }),
+        },
         {
-          title: 'Birth Place',
-          field: 'birthCity',
-          lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
+          title: 'VALOR',
+          field: 'precio_venta',
+           type: 'numeric',
+           headerStyle: {
+            width: "10%",
+            maxWidth: "10%",
+            align: "center",
+            fontSize: 12
+          },
+          cellStyle: (rowData) => ({
+            width: "10%",
+            maxWidth: "10%",
+            fontSize: 12
+          }),
+
         },
       ]}
-      data={[
-        { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
-        { name: 'Zerya Betül', surname: 'Baran', birthYear: 2017, birthCity: 34 },
-      ]}
+      data={tickets}
       actions={[
         {
           icon: 'add',
-          tooltip: 'Add User',
+          tooltip: 'Add Ticket',
           isFreeAction: true,
           onClick: (event,rowData) => utilsAuth.isPermisoAuthorized(TypesTickets.getAllPermisos().CREATE_TICKET, true)
             && moduloTickets.pushPathCreate('/ticket')
+        },
+        {
+          icon: () => (
+            <AssignmentTwoTone sx={{ fontSize: 24 }} color={"action"} />
+          ),
+          tooltip: 'View Ticket',
+
+          onClick: (event,rowData) => utilsAuth.isPermisoAuthorized(TypesTickets.getAllPermisos().VER_TICKET
+          , true)
+            && moduloTickets.pushPathView(rowData.id,'/ticket')
         }
+
       ]}
       options={{
         ...material_table.options,
         search: false,
-        pageSize: 15
+        pageSize: 15,
+        actionsColumnIndex: 0,
       }}
       icons={material_table.icons}
       style={material_table.style}

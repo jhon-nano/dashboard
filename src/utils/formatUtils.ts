@@ -1,16 +1,17 @@
 import {
-  Estado,
-
-
+  EstadoTicket,
   LazyAlmacen,
 
   LazyInventario,
 
   LazyProducto,
 
+  LazyTicket,
+
   LazyUsuario, ModuloNew, Producto,
   Usuario
 } from "../models";
+import { Estado } from '../models/index';
 
 
 export default class FormatUtils {
@@ -129,6 +130,32 @@ console.log(data)
           precio: this.formatNumber(newData.precio),
         });
       };
+
+
+
+
+      formatTicketData(data: any): LazyTicket {  // campos minimos requeridos para validar
+        //
+        if (
+          !data.Almacen ||
+          !data.Usuario ||
+          !data.Consecutivo 
+          // Agrega aquí otros campos requeridos que desees validar
+        ) {
+          throw new Error("Faltan campos requeridos en los datos del ticket.");
+        }
+      
+        return({
+          ...data,
+          ticketAlmacenId: data.Almacen.id,
+          ticketUsuarioId: data.Usuario.id,
+          forma_pago: data.forma_pago.value,
+          estado: EstadoTicket.PENDIENTE,
+          precio_venta: this.formatNumber(data.valor_total)
+        });
+      };
+    
+
    //--------------------------------------------------------------------
 
   formatNombreCompleto(data: any) {
