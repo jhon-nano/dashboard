@@ -21,7 +21,6 @@ import AlmacenesSelectDialog from "../../../components/almacenes/AlmacenesSelect
 import FormEmcabezadoCreateTicket from "../../../components/tickets/create/FormEmcabezado";
 import { useModelInventarioByAlmacenId } from "../../../hooks/models/useModelProducto";
 import LayoutApp from "../../../layout/LayoutApp";
-import { Estado } from "../../../models";
 
 
 const scheme = getContentBasedScheme();
@@ -332,8 +331,8 @@ function CreateTicket({ utilsAuth }) {
                 return searchWords.every(word => combinedOptionText.includes(word));
               }}
               noOptionsMessage={({ inputValue }) => console.log(inputValue)}
-              //onChange={onChange}
-              isOptionDisabled={(option) => option.estado == Estado.INACTIVO}
+            //onChange={onChange}
+            //isOptionDisabled={(option) => option.estado == Estado.INACTIVO}
 
             />
 
@@ -373,7 +372,7 @@ function CreateTicket({ utilsAuth }) {
             />
           </Grid>
         </Grid>
-        <Grid item xs={12} sm={8} md={8} lg={8} xl={7} sx={{mt:2}}>
+        <Grid item xs={12} sm={8} md={8} lg={8} xl={7} sx={{ mt: 2 }}>
           <Controller
             name="valor_total"
             control={control}
